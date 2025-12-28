@@ -68,7 +68,7 @@
 
         .summary-panel { 
             margin-top: 25px; padding: 20px; background: #0d1b33; border-radius: 15px; 
-            border: 2px solid var(--accent); display: flex; justify-content: space-between; 
+            border: 2px solid var(--accent); display: flex; justify-content: space-between; )
             align-items: center; flex-wrap: wrap; gap: 15px;
         }
 
@@ -107,7 +107,7 @@
     <select id="user-select" class="login-input">
         <option value="">Selecione o Usuário</option>
         <option value="Thiago Pelegrineli">Thiago Pelegrineli</option>
-        <option value="Davi Algusto">Davi Algusto</option>
+        <option value="Davi Augusto">Davi Algusto</option>
     </select>
     <input type="password" id="pass-input" class="login-input" placeholder="Senha" onkeydown="if(event.key==='Enter') autenticar()">
     <button class="btn btn-save" style="width:100%" onclick="autenticar()">Entrar</button>
