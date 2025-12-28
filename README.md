@@ -107,7 +107,7 @@
     <select id="user-select" class="login-input">
         <option value="">Selecione o Usuário</option>
         <option value="Thiago Pelegrineli">Thiago Pelegrineli</option>
-        <option value="Davi Augusto">Davi Algusto</option>
+        <option value="Davi Augusto">Davi Augusto</option>
     </select>
     <input type="password" id="pass-input" class="login-input" placeholder="Senha" onkeydown="if(event.key==='Enter') autenticar()">
     <button class="btn btn-save" style="width:100%" onclick="autenticar()">Entrar</button>
