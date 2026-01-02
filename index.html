@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>DIÁRIO DO GRÊMIO ESTUDANTIL</title>
+<title>Portal do Grêmio Estudantil - JTS</title>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
@@ -148,19 +148,19 @@ cursor:pointer;
 <img src="LOGO_GREMIO.png">
 </div>
 
-<h2>ACESSO AO DIÁRIO DO GRÊMIO ESTUDANTIL</h2>
+<h2>Acesso ao Portal do Grêmio Estudantil</h2>
 
 <div class="form-group">
-<label>USUÁRIO</label>
+<label>Usuário</label>
 <input id="user">
 </div>
 
 <div class="form-group">
-<label>SENHA</label>
+<label>Senha</label>
 <input type="password" id="pass">
 </div>
 
-<button onclick="handleLogin()" class="btn-save">ENTRAR</button>
+<button onclick="handleLogin()" class="btn-save">Entrar</button>
 </div>
 
 
@@ -173,46 +173,46 @@ cursor:pointer;
 <a onclick="location.reload()" style="color:#c82333;font-size:12px;cursor:pointer;">Sair</a>
 </div>
 
-<h2>CADASTRAR AÇÔES GRÊMIO ESTUDANTIL </h2>
+<h2>Cadastrar Ação Estudantil</h2>
 
 <div class="form-group">
-<label>TÍTULO AÇÃO</label>
+<label>Título da Ação</label>
 <input id="titulo">
 </div>
 
 <div style="display:flex;gap:10px;">
 <div class="form-group" style="flex:1">
-<label>DATA</label>
+<label>Data</label>
 <input type="date" id="data">
 </div>
 
 <div class="form-group" style="flex:1">
-<label>NÚMERO DE ALUNOS</label>
+<label>Participantes</label>
 <input type="number" id="qtd">
 </div>
 </div>
 
 <div class="form-group">
-<label>ORIGEM</label>
+<label>Origem da Proposta</label>
 <select id="proposta">
-<option value="Grêmio">GRÊMIO</option>
-<option value="Gestão Escolar">GESTÃO ESCOLAR</option>
+<option value="Grêmio">Grêmio</option>
+<option value="Gestão Escolar">Gestão Escolar</option>
 <option value="GRESP / SEDUC">GRESP / SEDUC</option>
 </select>
 </div>
 
 <div class="form-group">
-<label>TEMA</label>
+<label>Tema</label>
 <input id="tema">
 </div>
 
 <div class="form-group">
-<label>DESCRIÇÃO COMPLETA</label>
+<label>Descrição Completa</label>
 <textarea rows="4" id="descricao"></textarea>
 </div>
 
-<button class="btn-save" onclick="salvarAcao()">SALVAR REGISTROS</button>
-<button class="btn-log" onclick="acessarLogs()">VER HISTÓRICO</button>
+<button class="btn-save" onclick="salvarAcao()">Salvar Registro</button>
+<button class="btn-log" onclick="acessarLogs()">Ver Histórico</button>
 </div>
 
 
@@ -220,7 +220,7 @@ cursor:pointer;
 
 <div id="logs-screen" class="container hidden">
 
-<h2>HISTÓRICOS DE REGISTROS</h2>
+<h2>Histórico de Registros</h2>
 
 <div style="display:flex;justify-content:space-between;">
 <button onclick="voltarDash()" style="background:#343a40;width:auto;padding:10px 20px;border-radius:6px;">Voltar</button>
@@ -231,10 +231,10 @@ cursor:pointer;
 <table>
 <thead>
 <tr>
-<th>DATA/HORA</th>
-<th>AUTOR</th>
-<th>AÇÃO</th>
-<th>DOWNLOUD</th>
+<th>Data/Hora</th>
+<th>Autor</th>
+<th>Ação</th>
+<th>Download</th>
 </tr>
 </thead>
 <tbody id="log-table-body"></tbody>
