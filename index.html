@@ -13,33 +13,37 @@
         .form-group { margin-bottom: 1rem; }
         label { display: block; margin-bottom: 0.4rem; font-weight: 600; }
         input, select, textarea { width: 100%; padding: 0.7rem; border: 1px solid #ccc; border-radius: 6px; box-sizing: border-box; }
-        button { width: 100%; padding: 0.9rem; background: var(--primary); color: white; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; margin-top: 10px; }
-        .btn-log { background: #555; }
+        button { width: 100%; padding: 0.9rem; background: var(--primary); color: white; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; margin-top: 10px; transition: 0.2s; }
+        button:hover { opacity: 0.9; }
+        .btn-log { background: #444; }
         .btn-danger { background: #e74c3c; width: auto; padding: 8px 15px; margin-bottom: 10px; }
-        .btn-download { background: #27ae60; padding: 5px 10px; font-size: 12px; width: auto; margin: 0; }
+        .btn-download { background: #27ae60; padding: 6px 12px; font-size: 12px; width: auto; margin: 0; }
         .hidden { display: none; }
         table { width: 100%; border-collapse: collapse; margin-top: 20px; }
         th, td { text-align: left; padding: 12px; border-bottom: 1px solid #ddd; font-size: 13px; }
-        th { background: #f8f9fa; }
+        th { background: #f8f9fa; color: #333; }
+        .header-nav { display: flex; justify-content: flex-end; margin-bottom: 10px; }
     </style>
 </head>
 <body>
 
     <div id="login-screen" class="container">
         <h2>Login Grêmio Estudantil</h2>
-        <div class="form-group"><label>Usuário</label><input type="text" id="user"></div>
-        <div class="form-group"><label>Senha</label><input type="password" id="pass"></div>
+        <div class="form-group"><label>Usuário</label><input type="text" id="user" placeholder="Usuário"></div>
+        <div class="form-group"><label>Senha</label><input type="password" id="pass" placeholder="Senha"></div>
         <button onclick="handleLogin()">Entrar</button>
     </div>
 
     <div id="dashboard" class="container hidden">
-        <div style="text-align: right;"><button onclick="location.reload()" style="width:auto; background:#e74c3c; padding: 5px 10px;">Sair</button></div>
+        <div class="header-nav">
+            <button onclick="location.reload()" style="width:auto; background:#e74c3c; padding: 5px 15px; font-size: 12px;">Sair</button>
+        </div>
         <h2>Registrar Ação SED</h2>
         
         <div class="form-group"><label>Título da Ação</label><input type="text" id="titulo"></div>
         <div style="display: flex; gap: 10px;">
             <div class="form-group" style="flex: 1;"><label>Data</label><input type="date" id="data"></div>
-            <div class="form-group" style="flex: 1;"><label>Nº de Alunos</label><input type="number" id="qtd_alunos"></div>
+            <div class="form-group" style="flex: 1;"><label>Nº de Alunos Participantes</label><input type="number" id="qtd_alunos"></div>
         </div>
         <div class="form-group">
             <label>Proposta de Ação</label>
@@ -50,29 +54,31 @@
             </select>
         </div>
         <div class="form-group"><label>Tema</label><input type="text" id="tema"></div>
-        <div class="form-group"><label>Descrição</label><textarea id="descricao" rows="3"></textarea></div>
+        <div class="form-group"><label>Descrição Detalhada</label><textarea id="descricao" rows="3"></textarea></div>
 
-        <button onclick="salvarAcao()">Salvar Registro</button>
-        <button class="btn-log" onclick="acessarLogs()">Ver Logs e Baixar PDFs</button>
+        <button onclick="salvarAcao()">Salvar Registro de Ação</button>
+        <button class="btn-log" onclick="acessarLogs()">Acessar Histórico de Logs</button>
     </div>
 
     <div id="logs-screen" class="container hidden" style="max-width: 900px;">
-        <h2>Histórico de Ações</h2>
-        <button class="btn-danger" onclick="limparTudo()">Limpar Todo o Histórico</button>
+        <h2>Histórico de Ações Registradas</h2>
+        <div style="display: flex; justify-content: space-between;">
+            <button class="btn-danger" onclick="limparTudo()">Limpar Tudo</button>
+            <button onclick="voltarDash()" style="background: #7f8c8d; width: auto; padding: 8px 20px;">Voltar</button>
+        </div>
         <div style="overflow-x: auto;">
             <table>
                 <thead>
                     <tr>
-                        <th>Registro</th>
-                        <th>Autor</th>
+                        <th>Data/Hora Registro</th>
+                        <th>Responsável</th>
                         <th>Título</th>
-                        <th>Ação</th>
+                        <th>Arquivo</th>
                     </tr>
                 </thead>
                 <tbody id="log-table-body"></tbody>
             </table>
         </div>
-        <button onclick="voltarDash()" style="background: #7f8c8d;">Voltar</button>
     </div>
 
     <script>
@@ -87,83 +93,106 @@
                 loggedUser = u;
                 document.getElementById('login-screen').classList.add('hidden');
                 document.getElementById('dashboard').classList.remove('hidden');
-            } else { alert("Acesso Negado"); }
+            } else { alert("Usuário ou senha incorretos."); }
         }
 
         function salvarAcao() {
-            const campos = {
-                titulo: document.getElementById('titulo').value,
-                dataAcao: document.getElementById('data').value,
-                qtd: document.getElementById('qtd_alunos').value,
-                proposta: document.getElementById('proposta').value,
-                tema: document.getElementById('tema').value,
-                descricao: document.getElementById('descricao').value
-            };
+            const titulo = document.getElementById('titulo').value;
+            const dataAcao = document.getElementById('data').value;
+            const qtd = document.getElementById('qtd_alunos').value;
+            const proposta = document.getElementById('proposta').value;
+            const tema = document.getElementById('tema').value;
+            const descricao = document.getElementById('descricao').value;
 
-            if(!campos.titulo || !campos.dataAcao) return alert("Preencha Título e Data!");
+            if(!titulo || !dataAcao) return alert("Erro: Título e Data são obrigatórios!");
 
             const novaAcao = {
                 id: Date.now(),
                 autor: loggedUser,
-                dataRegistro: new Date().toLocaleDateString('pt-BR'),
-                horaRegistro: new Date().toLocaleTimeString('pt-BR'),
-                ...campos
+                dataReg: new Date().toLocaleDateString('pt-BR'),
+                horaReg: new Date().toLocaleTimeString('pt-BR'),
+                titulo, dataAcao, qtd, proposta, tema, descricao
             };
 
-            let logs = JSON.parse(localStorage.getItem('gremio_dados') || "[]");
+            let logs = JSON.parse(localStorage.getItem('gremio_db') || "[]");
             logs.push(novaAcao);
-            localStorage.setItem('gremio_dados', JSON.stringify(logs));
+            localStorage.setItem('gremio_db', JSON.stringify(logs));
 
-            alert("Salvo nos logs!");
+            alert("Ação registrada com sucesso! Vá nos Logs para baixar o PDF.");
             document.querySelectorAll('input, textarea').forEach(el => el.value = "");
         }
 
         function acessarLogs() {
-            document.getElementById('dashboard').classList.add('hidden');
-            document.getElementById('logs-screen').classList.remove('hidden');
-            renderizarTabela();
+            const senhaAcesso = prompt("Acesso Restrito. Digite a senha:");
+            if (senhaAcesso === "0000") {
+                document.getElementById('dashboard').classList.add('hidden');
+                document.getElementById('logs-screen').classList.remove('hidden');
+                renderizarTabela();
+            } else {
+                alert("Senha incorreta!");
+            }
         }
 
         function renderizarTabela() {
             const tbody = document.getElementById('log-table-body');
-            const logs = JSON.parse(localStorage.getItem('gremio_dados') || "[]");
+            const logs = JSON.parse(localStorage.getItem('gremio_db') || "[]");
             tbody.innerHTML = "";
 
-            // O filtro item.titulo remove as linhas "undefined" que não têm conteúdo real
-            logs.filter(item => item && item.titulo).reverse().forEach((item) => {
+            // Filtro rigoroso para não mostrar registros vazios/undefined
+            const validLogs = logs.filter(item => item && item.titulo && item.autor);
+
+            if(validLogs.length === 0) {
+                tbody.innerHTML = "<tr><td colspan='4' style='text-align:center;'>Nenhum registro encontrado.</td></tr>";
+                return;
+            }
+
+            validLogs.reverse().forEach((item) => {
                 const tr = document.createElement('tr');
                 tr.innerHTML = `
-                    <td>${item.dataRegistro} às ${item.horaRegistro}</td>
+                    <td>${item.dataReg} - ${item.horaReg}</td>
                     <td><strong>${item.autor}</strong></td>
                     <td>${item.titulo}</td>
-                    <td><button class="btn-download" onclick="baixarPDF(${item.id})">Baixar PDF</button></td>
+                    <td><button class="btn-download" onclick="baixarPDF(${item.id})">Gerar PDF</button></td>
                 `;
                 tbody.appendChild(tr);
             });
         }
 
         function baixarPDF(id) {
-            const logs = JSON.parse(localStorage.getItem('gremio_dados') || "[]");
+            const logs = JSON.parse(localStorage.getItem('gremio_db') || "[]");
             const d = logs.find(l => l.id === id);
             if(!d) return;
 
             const doc = new jsPDF();
-            doc.setFontSize(16); doc.text("Relatório de Ação - Grêmio Estudantil", 20, 20);
+            doc.setFont("helvetica", "bold");
+            doc.setFontSize(18);
+            doc.text("REGISTRO DE AÇÃO - GRÊMIO ESTUDANTIL", 20, 25);
+            
             doc.setFontSize(12);
-            doc.text(`Título: ${d.titulo}`, 20, 40);
-            doc.text(`Data: ${d.dataAcao}`, 20, 50);
-            doc.text(`Participantes: ${d.qtd}`, 20, 60);
-            doc.text(`Proposta: ${d.proposta}`, 20, 70);
-            doc.text(`Tema: ${d.tema}`, 20, 80);
-            doc.text("Descrição:", 20, 100);
-            doc.text(doc.splitTextToSize(d.descricao, 170), 20, 110);
-            doc.setFontSize(10); doc.text(`Autor: ${d.autor} | Registro: ${d.dataRegistro}`, 20, 280);
-            doc.save(`Acao_${d.id}.pdf`);
+            doc.setFont("helvetica", "normal");
+            doc.text(`Título: ${d.titulo}`, 20, 45);
+            doc.text(`Data da Ação: ${d.dataAcao}`, 20, 55);
+            doc.text(`Participantes: ${d.qtd} alunos`, 20, 65);
+            doc.text(`Proposta: ${d.proposta}`, 20, 75);
+            doc.text(`Tema: ${d.tema}`, 20, 85);
+            
+            doc.line(20, 92, 190, 92);
+            doc.setFont("helvetica", "bold");
+            doc.text("Descrição da Atividade:", 20, 102);
+            
+            doc.setFont("helvetica", "normal");
+            const descSplit = doc.splitTextToSize(d.descricao, 170);
+            doc.text(descSplit, 20, 110);
+
+            doc.setFontSize(9);
+            doc.text(`Documento gerado em: ${d.dataReg} às ${d.horaReg} | Autor: ${d.autor}`, 20, 285);
+            
+            doc.save(`Relatorio_${d.titulo.replace(/\s+/g, '_')}.pdf`);
         }
 
         function limparTudo() {
-            if(confirm("Deseja apagar TODOS os logs? Isso limpará os erros de 'undefined'.")) {
-                localStorage.removeItem('gremio_dados');
+            if(confirm("ATENÇÃO: Isso apagará permanentemente todos os registros e erros de 'undefined'. Continuar?")) {
+                localStorage.removeItem('gremio_db');
                 renderizarTabela();
             }
         }
