@@ -1,258 +1,144 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-<meta charset="UTF-8">
-<title>Grêmio Estudantil - Sistema</title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-
 <style>
-
-/* RESET */
-*{
-  margin:0;
-  padding:0;
-  box-sizing:border-box;
-}
-
 body{
-  font-family: "Poppins", Arial, sans-serif;
-  background:#f4f7fb;
-  color:#333;
-  min-height:100vh;
+    margin:0;
+    background:#f4f7fb;
+    font-family: "Poppins", Arial, sans-serif;
 }
 
-/* HEADER */
-header{
-  width:100%;
-  background:#2ecc71;
-  padding:18px 40px;
-  color:white;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  position:fixed;
-  top:0;
-  left:0;
-  z-index:100;
-  box-shadow:0 2px 15px rgba(0,0,0,.2);
-  animation: slideHeader .6s ease;
+.container-page{
+    width:100%;
+    height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
 }
 
-@keyframes slideHeader{
-  from{transform:translateY(-50px); opacity:0;}
-  to{transform:translateY(0); opacity:1;}
+.form-box{
+    width:90%;
+    max-width:1100px;
+    background:white;
+    border-radius:15px;
+    padding:40px;
+    box-shadow:0 20px 40px rgba(0,0,0,0.1);
+    animation: fade .6s ease-in-out;
 }
 
-header h1{
-  font-size:22px;
-  font-weight:700;
+@keyframes fade{
+    from { opacity:0; transform:translateY(20px); }
+    to { opacity:1; transform:translateY(0px); }
 }
 
-header .user-area{
-  font-size:14px;
+.title{
+    text-align:center;
+    font-size:28px;
+    font-weight:700;
+    margin-bottom:25px;
+    color:#333;
 }
 
-header a{
-  color:#ffe0e0;
-  text-decoration:none;
-}
-
-header a:hover{
-  text-decoration:underline;
-}
-
-/* CONTEÚDO */
-.main-container{
-  padding-top:120px;
-  padding-bottom:40px;
-  width:100%;
-  display:flex;
-  justify-content:center;
-}
-
-/* CARD CENTRAL */
-.card-box{
-  width:95%;
-  max-width:1200px;
-  background:white;
-  border-radius:18px;
-  padding:40px;
-  box-shadow:0 20px 45px rgba(0,0,0,.1);
-  animation: show .6s ease-in-out;
-}
-
-@keyframes show{
-  from{opacity:0; transform:translateY(25px);}
-  to{opacity:1; transform:translateY(0);}
-}
-
-/* TÍTULO */
-.title-page{
-  text-align:center;
-  font-size:28px;
-  font-weight:700;
-  margin-bottom:25px;
-}
-
-/* FORM */
-label{
-  font-weight:600;
-  margin-top:10px;
-  display:block;
-}
-
+/* Inputs */
 input, select, textarea{
-  width:100%;
-  padding:12px;
-  border-radius:10px;
-  border:1px solid #ccc;
-  margin-top:5px;
-  font-size:14px;
-  transition:.3s;
+    width:100%;
+    padding:12px;
+    border-radius:8px;
+    border:1px solid #ccc;
+    transition:.3s;
+    font-size:14px;
 }
 
-input:focus,
-select:focus,
-textarea:focus{
-  border-color:#2ecc71;
-  box-shadow:0 0 10px rgba(46,204,112,.6);
-  outline:none;
+input:focus, select:focus, textarea:focus{
+    border-color:#35c36b;
+    box-shadow:0 0 8px rgba(53,195,107,0.6);
+    outline:none;
 }
 
-.row{
-  display:flex;
-  gap:15px;
-}
-
-.col{
-  flex:1;
-}
-
-/* BOTÕES */
-button{
-  width:100%;
-  padding:14px;
-  border-radius:12px;
-  border:none;
-  font-size:16px;
-  cursor:pointer;
-  transition:.4s;
+/* Botões */
+.btn{
+    width:100%;
+    padding:14px;
+    border-radius:10px;
+    border:none;
+    font-size:16px;
+    cursor:pointer;
+    transition:.4s;
 }
 
 .btn-green{
-  background:#2ecc71;
-  color:white;
+    background:#32CD62;
+    color:white;
 }
 
 .btn-green:hover{
-  background:#28b862;
-  transform:scale(1.03);
+    background:#2ab152;
+    transform:scale(1.02);
 }
 
 .btn-gray{
-  background:#7f8c8d;
-  color:white;
+    background:#8b959e;
+    color:white;
 }
 
 .btn-gray:hover{
-  background:#6c7778;
-  transform:scale(1.03);
+    background:#6f7a84;
+    transform:scale(1.02);
 }
 
-/* FOOTER */
-footer{
-  margin-top:40px;
-  text-align:center;
-  color:#666;
-  font-size:13px;
-  padding-bottom:10px;
-}
-
-/* RESPONSIVO */
-@media(max-width:800px){
-  .row{
-    flex-direction:column;
-  }
-
-  header{
-    padding:15px;
-  }
-
-  header h1{
-    font-size:18px;
-  }
-
-  .card-box{
-    padding:25px;
-  }
+/* Topo login */
+.top-info{
+    text-align:right;
+    font-size:13px;
+    color:#555;
+    margin-bottom:5px;
 }
 
 </style>
-</head>
 
-<body>
 
-<header>
-  <h1>Grêmio Estudantil JTS</h1>
+<div class="container-page">
+    <div class="form-box">
 
-  <div class="user-area">
-    Logado como: <b>admin</b> | 
-    <a href="#">Sair</a>
-  </div>
-</header>
-
-<div class="main-container">
-
-  <div class="card-box">
-
-    <h2 class="title-page">Cadastrar Nova Ação</h2>
-
-    <form>
-
-      <label>Título da Ação</label>
-      <input type="text" placeholder="Digite o título da ação">
-
-      <div class="row">
-        <div class="col">
-          <label>Data</label>
-          <input type="date">
+        <div class="top-info">
+            Logado como: <b>admin</b> | 
+            <a href="#" style="color:red;text-decoration:none;">Sair</a>
         </div>
 
-        <div class="col">
-          <label>Participantes</label>
-          <input type="text" placeholder="Digite os participantes">
-        </div>
-      </div>
+        <h2 class="title">Cadastrar Nova Ação</h2>
 
-      <label>Proposta de Ação</label>
-      <select>
-        <option value="">Selecione</option>
-        <option>Grêmio</option>
-        <option>Projeto</option>
-        <option>Evento</option>
-      </select>
+        <form>
 
-      <label>Tema</label>
-      <input type="text" placeholder="Digite o tema">
+            <label>Título da Ação</label>
+            <input type="text">
 
-      <label>Descrição Completa</label>
-      <textarea rows="6" placeholder="Descreva detalhadamente"></textarea>
+            <div style="display:flex; gap:15px; margin-top:10px;">
+                <div style="flex:1;">
+                    <label>Data</label>
+                    <input type="date">
+                </div>
 
-      <br>
+                <div style="flex:1;">
+                    <label>Participantes</label>
+                    <input type="text">
+                </div>
+            </div>
 
-      <button class="btn-green">Salvar Registro</button>
-      <br><br>
-      <button class="btn-gray" type="button">Consultar Histórico</button>
+            <label style="margin-top:10px;">Proposta de Ação</label>
+            <select>
+                <option>Grêmio</option>
+            </select>
 
-    </form>
+            <label>Tema</label>
+            <input type="text">
 
-  </div>
+            <label>Descrição Completa</label>
+            <textarea rows="5"></textarea>
 
+            <br>
+
+            <button class="btn btn-green">Salvar Registro</button>
+            <br><br>
+            <button class="btn btn-gray">Consultar Histórico</button>
+
+        </form>
+
+    </div>
 </div>
-
-<footer>
-  Sistema do Grêmio Estudantil • Escola JTS
-</footer>
-
-</body>
-</html>
