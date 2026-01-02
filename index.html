@@ -1,144 +1,376 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Portal do Grêmio Estudantil - JTS</title>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
 <style>
+
+:root{
+--primary:#00a896;
+--secondary:#0077b6;
+--dark:#1d2d35;
+--bg:#eef4f7;
+}
+
 body{
-    margin:0;
-    background:#f4f7fb;
-    font-family: "Poppins", Arial, sans-serif;
+margin:0;
+background:var(--bg);
+font-family:Segoe UI,Arial;
 }
 
-.container-page{
-    width:100%;
-    height:100vh;
-    display:flex;
-    justify-content:center;
-    align-items:center;
+/* CARD BASE */
+.container{
+background:white;
+width:95%;
+max-width:850px;
+margin:35px auto;
+padding:30px;
+border-radius:12px;
+box-shadow:0 10px 30px rgba(0,0,0,0.15);
+border-top:8px solid var(--primary);
 }
 
-.form-box{
-    width:90%;
-    max-width:1100px;
-    background:white;
-    border-radius:15px;
-    padding:40px;
-    box-shadow:0 20px 40px rgba(0,0,0,0.1);
-    animation: fade .6s ease-in-out;
+/* TOPO COM LOGOS */
+.header-logos{
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:25px;
+border-bottom:1px dashed #ccc;
+padding-bottom:15px;
 }
 
-@keyframes fade{
-    from { opacity:0; transform:translateY(20px); }
-    to { opacity:1; transform:translateY(0px); }
+.header-logos img{
+max-height:95px;
+object-fit:contain;
 }
 
-.title{
-    text-align:center;
-    font-size:28px;
-    font-weight:700;
-    margin-bottom:25px;
-    color:#333;
+/* TITULOS */
+h2{
+text-align:center;
+color:var(--dark);
+letter-spacing:1px;
+font-weight:700;
 }
 
-/* Inputs */
-input, select, textarea{
-    width:100%;
-    padding:12px;
-    border-radius:8px;
-    border:1px solid #ccc;
-    transition:.3s;
-    font-size:14px;
+/* CAMPOS */
+.form-group{margin-bottom:15px;}
+
+label{
+font-weight:700;
+color:#555;
 }
 
-input:focus, select:focus, textarea:focus{
-    border-color:#35c36b;
-    box-shadow:0 0 8px rgba(53,195,107,0.6);
-    outline:none;
+input,select,textarea{
+width:100%;
+padding:10px;
+border-radius:6px;
+border:1px solid #ccc;
+font-size:15px;
+background:#fafafa;
 }
 
-/* Botões */
-.btn{
-    width:100%;
-    padding:14px;
-    border-radius:10px;
-    border:none;
-    font-size:16px;
-    cursor:pointer;
-    transition:.4s;
+input:focus,textarea:focus,select:focus{
+outline:none;
+border:1px solid var(--secondary);
+box-shadow:0 0 4px var(--secondary);
 }
 
-.btn-green{
-    background:#32CD62;
-    color:white;
+/* BOTÕES */
+button{
+width:100%;
+padding:13px;
+border-radius:6px;
+border:none;
+font-weight:700;
+cursor:pointer;
+transition:.2s;
+color:white;
 }
 
-.btn-green:hover{
-    background:#2ab152;
-    transform:scale(1.02);
+.btn-save{background:var(--primary);}
+.btn-save:hover{transform:scale(1.02);}
+
+.btn-log{background:#495057;margin-top:15px;}
+.btn-log:hover{transform:scale(1.02);}
+
+.btn-danger{background:#c82333;}
+.btn-danger:hover{transform:scale(1.02);}
+
+/* LOGS */
+.table-container{
+margin-top:25px;
+overflow-x:auto;
 }
 
-.btn-gray{
-    background:#8b959e;
-    color:white;
+table{
+width:100%;
+border-collapse:collapse;
 }
 
-.btn-gray:hover{
-    background:#6f7a84;
-    transform:scale(1.02);
+th{
+background:#f8f9fa;
+padding:12px;
+border-bottom:2px solid #ddd;
 }
 
-/* Topo login */
-.top-info{
-    text-align:right;
-    font-size:13px;
-    color:#555;
-    margin-bottom:5px;
+td{
+padding:10px;
+border-bottom:1px solid #eee;
+}
+
+/* ESCONDER TELA */
+.hidden{display:none;}
+
+.badge-download{
+background:var(--primary);
+color:white;
+padding:7px 12px;
+border-radius:5px;
+border:none;
+cursor:pointer;
 }
 
 </style>
+</head>
 
+<body>
 
-<div class="container-page">
-    <div class="form-box">
+<div id="login-screen" class="container">
 
-        <div class="top-info">
-            Logado como: <b>admin</b> | 
-            <a href="#" style="color:red;text-decoration:none;">Sair</a>
-        </div>
-
-        <h2 class="title">Cadastrar Nova Ação</h2>
-
-        <form>
-
-            <label>Título da Ação</label>
-            <input type="text">
-
-            <div style="display:flex; gap:15px; margin-top:10px;">
-                <div style="flex:1;">
-                    <label>Data</label>
-                    <input type="date">
-                </div>
-
-                <div style="flex:1;">
-                    <label>Participantes</label>
-                    <input type="text">
-                </div>
-            </div>
-
-            <label style="margin-top:10px;">Proposta de Ação</label>
-            <select>
-                <option>Grêmio</option>
-            </select>
-
-            <label>Tema</label>
-            <input type="text">
-
-            <label>Descrição Completa</label>
-            <textarea rows="5"></textarea>
-
-            <br>
-
-            <button class="btn btn-green">Salvar Registro</button>
-            <br><br>
-            <button class="btn btn-gray">Consultar Histórico</button>
-
-        </form>
-
-    </div>
+<div class="header-logos">
+<img src="BRASAO_ESCOLA.png">
+<img src="LOGO_GREMIO.png">
 </div>
+
+<h2>Acesso ao Portal do Grêmio Estudantil</h2>
+
+<div class="form-group">
+<label>Usuário</label>
+<input id="user">
+</div>
+
+<div class="form-group">
+<label>Senha</label>
+<input type="password" id="pass">
+</div>
+
+<button onclick="handleLogin()" class="btn-save">Entrar</button>
+</div>
+
+
+
+
+<div id="dashboard" class="container hidden">
+
+<div style="text-align:right;">
+<span id="user-display" style="font-size:12px;font-weight:bold;"></span> |
+<a onclick="location.reload()" style="color:#c82333;font-size:12px;cursor:pointer;">Sair</a>
+</div>
+
+<h2>Cadastrar Ação Estudantil</h2>
+
+<div class="form-group">
+<label>Título da Ação</label>
+<input id="titulo">
+</div>
+
+<div style="display:flex;gap:10px;">
+<div class="form-group" style="flex:1">
+<label>Data</label>
+<input type="date" id="data">
+</div>
+
+<div class="form-group" style="flex:1">
+<label>Participantes</label>
+<input type="number" id="qtd">
+</div>
+</div>
+
+<div class="form-group">
+<label>Origem da Proposta</label>
+<select id="proposta">
+<option value="Grêmio">Grêmio</option>
+<option value="Gestão Escolar">Gestão Escolar</option>
+<option value="GRESP / SEDUC">GRESP / SEDUC</option>
+</select>
+</div>
+
+<div class="form-group">
+<label>Tema</label>
+<input id="tema">
+</div>
+
+<div class="form-group">
+<label>Descrição Completa</label>
+<textarea rows="4" id="descricao"></textarea>
+</div>
+
+<button class="btn-save" onclick="salvarAcao()">Salvar Registro</button>
+<button class="btn-log" onclick="acessarLogs()">Ver Histórico</button>
+</div>
+
+
+
+
+<div id="logs-screen" class="container hidden">
+
+<h2>Histórico de Registros</h2>
+
+<div style="display:flex;justify-content:space-between;">
+<button onclick="voltarDash()" style="background:#343a40;width:auto;padding:10px 20px;border-radius:6px;">Voltar</button>
+<button class="btn-danger" onclick="limparBanco()">Limpar Tudo</button>
+</div>
+
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>Data/Hora</th>
+<th>Autor</th>
+<th>Ação</th>
+<th>Download</th>
+</tr>
+</thead>
+<tbody id="log-table-body"></tbody>
+</table>
+</div>
+
+</div>
+
+
+
+<script>
+
+const { jsPDF } = window.jspdf;
+const users = { "admin":"1234","gremio":"gremio123" };
+const DB_NAME = "gremio_db_v6";
+let loggedUser = "";
+
+/* LOGIN */
+function handleLogin(){
+const u = user.value;
+const p = pass.value;
+if(users[u]===p){
+loggedUser=u;
+login-screen.classList.add("hidden");
+dashboard.classList.remove("hidden");
+user-display.innerText="Usuário: "+u;
+}else alert("Login inválido");
+}
+
+/* SALVAR */
+function salvarAcao(){
+if(!titulo.value || !data.value) return alert("Título e Data são obrigatórios!");
+
+const registro = {
+id:Date.now(),
+autor:loggedUser,
+dataReg:new Date().toLocaleDateString("pt-BR"),
+horaReg:new Date().toLocaleTimeString("pt-BR"),
+titulo:titulo.value,
+dataAcao:data.value,
+qtd:qtd.value || "Não informado",
+proposta:proposta.value,
+tema:tema.value || "Não informado",
+descricao:descricao.value || "Sem descrição"
+};
+
+let logs = JSON.parse(localStorage.getItem(DB_NAME)||"[]");
+logs.push(registro);
+localStorage.setItem(DB_NAME,JSON.stringify(logs));
+
+alert("Ação registrada!");
+document.querySelectorAll("input,textarea").forEach(i=>i.value="");
+}
+
+/* LOGS */
+function acessarLogs(){
+if(prompt("Senha do Administrador:")!=="0000") return alert("Acesso negado!");
+dashboard.classList.add("hidden");
+logs-screen.classList.remove("hidden");
+renderLogs();
+}
+
+function renderLogs(){
+const tbody=document.getElementById("log-table-body");
+const logs=JSON.parse(localStorage.getItem(DB_NAME)||"[]").filter(l=>l.titulo);
+tbody.innerHTML="";
+if(!logs.length) return tbody.innerHTML="<tr><td colspan='4' style='text-align:center'>Nenhum registro</td></tr>";
+
+logs.reverse().forEach(l=>{
+tbody.innerHTML+=`
+<tr>
+<td>${l.dataReg} ${l.horaReg}</td>
+<td><b>${l.autor}</b></td>
+<td>${l.titulo}</td>
+<td><button class="badge-download" onclick="gerarPDF(${l.id})">PDF</button></td>
+</tr>`;
+});
+}
+
+/* PDF */
+function gerarPDF(id){
+
+const logs = JSON.parse(localStorage.getItem(DB_NAME)||"[]");
+const d = logs.find(l=>l.id===id);
+if(!d) return;
+
+const doc = new jsPDF();
+
+/* Cabeçalho */
+doc.setFillColor(0,168,150);
+doc.rect(0,0,210,35,"F");
+
+doc.addImage("BRASAO_ESCOLA.png","PNG",10,5,30,25);
+doc.addImage("LOGO_GREMIO.png","PNG",165,5,35,25);
+
+doc.setTextColor(255,255,255);
+doc.setFontSize(18);
+doc.text("RELATÓRIO DE AÇÃO ESTUDANTIL",105,22,{align:"center"});
+
+/* Corpo */
+doc.setTextColor(0,0,0);
+doc.setFontSize(12);
+
+doc.text("Escola: E.E Profº João Teixeira Sampaio",20,50);
+doc.text("Grêmio: Geração Consciente",20,58);
+
+doc.text(`Título: ${d.titulo}`,20,74);
+doc.text(`Data: ${d.dataAcao}`,20,84);
+doc.text(`Participantes: ${d.qtd}`,20,94);
+doc.text(`Proposta: ${d.proposta}`,20,104);
+doc.text(`Tema: ${d.tema}`,20,114);
+
+doc.line(20,120,190,120);
+doc.text("Descrição da Atividade:",20,130);
+
+const linhas = doc.splitTextToSize(d.descricao,170);
+doc.text(linhas,20,140);
+
+doc.setFontSize(9);
+doc.text(`Emitido em ${d.dataReg} às ${d.horaReg} por ${d.autor}`,20,285);
+
+doc.save(`Relatorio_${d.titulo}.pdf`);
+}
+
+function limparBanco(){
+if(confirm("Deseja realmente apagar tudo?")){
+localStorage.removeItem(DB_NAME);
+renderLogs();
+}
+}
+
+function voltarDash(){
+logs-screen.classList.add("hidden");
+dashboard.classList.remove("hidden");
+}
+
+</script>
+</body>
+</html>
