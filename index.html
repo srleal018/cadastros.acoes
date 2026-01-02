@@ -1,376 +1,311 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema Grêmio Estudantil - SED</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <style>
+        /* Estilo baseado na Secretaria Escolar Digital (SED) */
+        :root { 
+            --sed-green: #2ecc71; 
+            --sed-blue: #3498db; 
+            --sed-dark-blue: #2c3e50;
+            --background: #f4f7f6;
+        }
+        
+        body { 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            background-color: var(--background); 
+            margin: 0; 
+            padding: 20px; 
+            color: #333;
+        }
+        
+        .container { 
+            background: white; 
+            padding: 2.5rem; 
+            border-radius: 10px; 
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1); 
+            width: 95%; 
+            max-width: 850px; 
+            margin: auto; 
+            border-top: 5px solid var(--sed-green);
+        }
 
-<title>Portal do Grêmio Estudantil - JTS</title>
+        /* Correção das Logos */
+        .header-logos { 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            margin-bottom: 30px; 
+            gap: 20px;
+        }
+        .header-logos img { 
+            max-height: 120px; 
+            width: auto; 
+            object-fit: contain; 
+        }
+        
+        h2 { 
+            text-align: center; 
+            color: var(--sed-dark-blue); 
+            margin-bottom: 25px;
+            font-weight: 300;
+        }
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+        .form-group { margin-bottom: 15px; }
+        label { display: block; margin-bottom: 8px; font-weight: 600; color: #555; }
+        
+        input, select, textarea { 
+            width: 100%; 
+            padding: 12px; 
+            border: 1px solid #ddd; 
+            border-radius: 5px; 
+            box-sizing: border-box; 
+            font-size: 15px;
+            transition: border 0.3s;
+        }
+        input:focus { border-color: var(--sed-blue); outline: none; }
+        
+        button { 
+            width: 100%; 
+            padding: 14px; 
+            background-color: var(--sed-blue); 
+            color: white; 
+            border: none; 
+            border-radius: 5px; 
+            cursor: pointer; 
+            font-weight: bold; 
+            font-size: 16px; 
+            margin-top: 10px;
+            transition: background 0.3s;
+        }
+        button:hover { background-color: #2980b9; }
 
-<style>
+        .btn-save { background-color: var(--sed-green); }
+        .btn-save:hover { background-color: #27ae60; }
 
-:root{
---primary:#00a896;
---secondary:#0077b6;
---dark:#1d2d35;
---bg:#eef4f7;
-}
+        .btn-log { background: #95a5a6; margin-top: 20px; font-size: 14px; }
+        .btn-danger { background: #e74c3c; width: auto; padding: 10px 20px; }
+        .btn-download { background: var(--sed-green); padding: 8px 15px; font-size: 12px; width: auto; margin: 0; }
 
-body{
-margin:0;
-background:var(--bg);
-font-family:Segoe UI,Arial;
-}
+        .hidden { display: none; }
 
-/* CARD BASE */
-.container{
-background:white;
-width:95%;
-max-width:850px;
-margin:35px auto;
-padding:30px;
-border-radius:12px;
-box-shadow:0 10px 30px rgba(0,0,0,0.15);
-border-top:8px solid var(--primary);
-}
+        /* Tabela de Logs SED Style */
+        .table-container { overflow-x: auto; margin-top: 25px; }
+        table { width: 100%; border-collapse: collapse; }
+        th { 
+            background-color: #ecf0f1; 
+            color: var(--sed-dark-blue); 
+            text-align: left; 
+            padding: 15px; 
+            border-bottom: 2px solid #ddd;
+        }
+        td { padding: 15px; border-bottom: 1px solid #eee; font-size: 14px; }
+        tr:hover { background: #f9f9f9; }
 
-/* TOPO COM LOGOS */
-.header-logos{
-display:flex;
-justify-content:space-between;
-align-items:center;
-margin-bottom:25px;
-border-bottom:1px dashed #ccc;
-padding-bottom:15px;
-}
+        .user-info { text-align: right; margin-bottom: 10px; font-size: 12px; color: #7f8c8d; }
 
-.header-logos img{
-max-height:95px;
-object-fit:contain;
-}
-
-/* TITULOS */
-h2{
-text-align:center;
-color:var(--dark);
-letter-spacing:1px;
-font-weight:700;
-}
-
-/* CAMPOS */
-.form-group{margin-bottom:15px;}
-
-label{
-font-weight:700;
-color:#555;
-}
-
-input,select,textarea{
-width:100%;
-padding:10px;
-border-radius:6px;
-border:1px solid #ccc;
-font-size:15px;
-background:#fafafa;
-}
-
-input:focus,textarea:focus,select:focus{
-outline:none;
-border:1px solid var(--secondary);
-box-shadow:0 0 4px var(--secondary);
-}
-
-/* BOTÕES */
-button{
-width:100%;
-padding:13px;
-border-radius:6px;
-border:none;
-font-weight:700;
-cursor:pointer;
-transition:.2s;
-color:white;
-}
-
-.btn-save{background:var(--primary);}
-.btn-save:hover{transform:scale(1.02);}
-
-.btn-log{background:#495057;margin-top:15px;}
-.btn-log:hover{transform:scale(1.02);}
-
-.btn-danger{background:#c82333;}
-.btn-danger:hover{transform:scale(1.02);}
-
-/* LOGS */
-.table-container{
-margin-top:25px;
-overflow-x:auto;
-}
-
-table{
-width:100%;
-border-collapse:collapse;
-}
-
-th{
-background:#f8f9fa;
-padding:12px;
-border-bottom:2px solid #ddd;
-}
-
-td{
-padding:10px;
-border-bottom:1px solid #eee;
-}
-
-/* ESCONDER TELA */
-.hidden{display:none;}
-
-.badge-download{
-background:var(--primary);
-color:white;
-padding:7px 12px;
-border-radius:5px;
-border:none;
-cursor:pointer;
-}
-
-</style>
+        @media (max-width: 600px) {
+            .header-logos { flex-direction: column; text-align: center; }
+            .header-logos img { max-height: 80px; }
+        }
+    </style>
 </head>
-
 <body>
 
-<div id="login-screen" class="container">
+    <div id="login-screen" class="container">
+        <div class="header-logos">
+            <img src="https://media-gru2-1.cdn.whatsapp.net/v/t61.24694-24/489405406_650586094569182_6793834854762065392_n.jpg?ccb=11-4&oh=01_Q5Aa3QFLI5uLR7B-Jj5LSyAQd7wxXJoZ9ceCDkzThVR0E9T4Bw&oe=69645917&_nc_sid=5e03e0&_nc_cat=102" alt="Logo Escola JTS">
+            <img src="data:image/jpeg;base64,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" alt="Logo Grêmio Geração Consciente">
+        </div>
+        <h2>Acesso ao Sistema Grêmio</h2>
+        <div class="form-group"><label>Usuário</label><input type="text" id="user" placeholder="Digite seu usuário"></div>
+        <div class="form-group"><label>Senha</label><input type="password" id="pass" placeholder="Digite sua senha"></div>
+        <button onclick="handleLogin()">Entrar</button>
+    </div>
 
-<div class="header-logos">
-<img src="BRASAO_ESCOLA.png">
-<img src="LOGO_GREMIO.png">
-</div>
+    <div id="dashboard" class="container hidden">
+        <div class="user-info">
+            <span id="user-display"></span> | <a href="#" onclick="location.reload()" style="color: #e74c3c;">Sair</a>
+        </div>
+        <h2>Cadastrar Nova Ação</h2>
+        
+        <div class="form-group"><label>Título da Ação</label><input type="text" id="titulo"></div>
+        
+        <div style="display: flex; gap: 15px;">
+            <div class="form-group" style="flex: 1;"><label>Data</label><input type="date" id="data"></div>
+            <div class="form-group" style="flex: 1;"><label>Participantes</label><input type="number" id="qtd"></div>
+        </div>
 
-<h2>Acesso ao Portal do Grêmio Estudantil</h2>
+        <div class="form-group">
+            <label>Proposta de Ação</label>
+            <select id="proposta">
+                <option value="Grêmio">Grêmio</option>
+                <option value="Gestão Escolar">Gestão Escolar</option>
+                <option value="GRESP - SEDUC">GRESP - SEDUC</option>
+            </select>
+        </div>
 
-<div class="form-group">
-<label>Usuário</label>
-<input id="user">
-</div>
+        <div class="form-group"><label>Tema</label><input type="text" id="tema"></div>
+        <div class="form-group"><label>Descrição Completa</label><textarea id="descricao" rows="5"></textarea></div>
 
-<div class="form-group">
-<label>Senha</label>
-<input type="password" id="pass">
-</div>
+        <button class="btn-save" onclick="salvarAcao()">Salvar Registro</button>
+        <button class="btn-log" onclick="acessarLogs()">Consultar Histórico</button>
+    </div>
 
-<button onclick="handleLogin()" class="btn-save">Entrar</button>
-</div>
+    <div id="logs-screen" class="container hidden" style="max-width: 950px;">
+        <h2>Histórico de Ações</h2>
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+            <button onclick="voltarDash()" style="background: #34495e; width: auto; padding: 10px 25px;">Voltar</button>
+            <button class="btn-danger" onclick="limparTudo()">Limpar Tudo</button>
+        </div>
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Data/Hora</th>
+                        <th>Autor</th>
+                        <th>Ação</th>
+                        <th>Documento</th>
+                    </tr>
+                </thead>
+                <tbody id="log-table-body"></tbody>
+            </table>
+        </div>
+    </div>
 
+    <script>
+        const { jsPDF } = window.jspdf;
+        const users = { "admin": "1234", "gremio": "gremio123" };
+        let loggedUser = "";
 
+        function handleLogin() {
+            const u = document.getElementById('user').value;
+            const p = document.getElementById('pass').value;
+            if (users[u] === p) {
+                loggedUser = u;
+                document.getElementById('login-screen').classList.add('hidden');
+                document.getElementById('dashboard').classList.remove('hidden');
+                document.getElementById('user-display').innerText = "Logado como: " + u;
+            } else { alert("Usuário ou senha incorretos!"); }
+        }
 
+        function salvarAcao() {
+            const campos = {
+                titulo: document.getElementById('titulo').value,
+                dataAcao: document.getElementById('data').value,
+                qtd: document.getElementById('qtd').value,
+                proposta: document.getElementById('proposta').value,
+                tema: document.getElementById('tema').value,
+                descricao: document.getElementById('descricao').value
+            };
 
-<div id="dashboard" class="container hidden">
+            // Validação para evitar undefined
+            if (!campos.titulo || !campos.dataAcao) {
+                alert("Erro: Preencha pelo menos o Título e a Data!");
+                return;
+            }
 
-<div style="text-align:right;">
-<span id="user-display" style="font-size:12px;font-weight:bold;"></span> |
-<a onclick="location.reload()" style="color:#c82333;font-size:12px;cursor:pointer;">Sair</a>
-</div>
+            const registro = {
+                id: Date.now(),
+                autor: loggedUser,
+                dataReg: new Date().toLocaleDateString('pt-BR'),
+                horaReg: new Date().toLocaleTimeString('pt-BR'),
+                ...campos
+            };
 
-<h2>Cadastrar Ação Estudantil</h2>
+            // Novo banco de dados para limpar os erros anteriores
+            let logs = JSON.parse(localStorage.getItem('gremio_sed_v4') || "[]");
+            logs.push(registro);
+            localStorage.setItem('gremio_sed_v4', JSON.stringify(logs));
 
-<div class="form-group">
-<label>Título da Ação</label>
-<input id="titulo">
-</div>
+            alert("Ação registrada com sucesso!");
+            document.querySelectorAll('input, textarea').forEach(el => el.value = "");
+        }
 
-<div style="display:flex;gap:10px;">
-<div class="form-group" style="flex:1">
-<label>Data</label>
-<input type="date" id="data">
-</div>
+        function acessarLogs() {
+            const s = prompt("Digite a senha para acessar:");
+            if (s === "0000") {
+                document.getElementById('dashboard').classList.add('hidden');
+                document.getElementById('logs-screen').classList.remove('hidden');
+                renderizarTabela();
+            } else { alert("Senha incorreta!"); }
+        }
 
-<div class="form-group" style="flex:1">
-<label>Participantes</label>
-<input type="number" id="qtd">
-</div>
-</div>
+        function renderizarTabela() {
+            const tbody = document.getElementById('log-table-body');
+            const logs = JSON.parse(localStorage.getItem('gremio_sed_v4') || "[]");
+            tbody.innerHTML = "";
 
-<div class="form-group">
-<label>Origem da Proposta</label>
-<select id="proposta">
-<option value="Grêmio">Grêmio</option>
-<option value="Gestão Escolar">Gestão Escolar</option>
-<option value="GRESP / SEDUC">GRESP / SEDUC</option>
-</select>
-</div>
+            // Filtro para garantir que não apareça nada undefined
+            const validos = logs.filter(item => item && item.titulo && item.dataReg);
 
-<div class="form-group">
-<label>Tema</label>
-<input id="tema">
-</div>
+            if (validos.length === 0) {
+                tbody.innerHTML = "<tr><td colspan='4' style='text-align:center;'>Nenhum registro encontrado.</td></tr>";
+                return;
+            }
 
-<div class="form-group">
-<label>Descrição Completa</label>
-<textarea rows="4" id="descricao"></textarea>
-</div>
+            validos.reverse().forEach((item) => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td>${item.dataReg} às ${item.horaReg}</td>
+                    <td><strong>${item.autor}</strong></td>
+                    <td>${item.titulo}</td>
+                    <td><button class="btn-download" onclick="gerarPDF(${item.id})">Baixar PDF</button></td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
 
-<button class="btn-save" onclick="salvarAcao()">Salvar Registro</button>
-<button class="btn-log" onclick="acessarLogs()">Ver Histórico</button>
-</div>
+        function gerarPDF(id) {
+            const logs = JSON.parse(localStorage.getItem('gremio_sed_v4') || "[]");
+            const d = logs.find(l => l.id === id);
+            if (!d) return;
 
+            const doc = new jsPDF();
+            // Header do PDF com cor SED
+            doc.setFillColor(46, 204, 113);
+            doc.rect(0, 0, 210, 30, 'F');
+            doc.setTextColor(255, 255, 255);
+            doc.setFontSize(20);
+            doc.text("Relatório de Ação Estudantil", 105, 20, { align: "center" });
+            
+            doc.setTextColor(0, 0, 0);
+            doc.setFontSize(12);
+            doc.text(`Escola: E.E. Profº João Teixeira Sampaio`, 20, 45);
+            doc.text(`Grêmio: Geração Consciente`, 20, 52);
+            doc.text(`Título: ${d.titulo}`, 20, 65);
+            doc.text(`Data da Ação: ${d.dataAcao}`, 20, 75);
+            doc.text(`Participantes: ${d.qtd} alunos`, 20, 85);
+            doc.text(`Proposta: ${d.proposta}`, 20, 95);
+            doc.text(`Tema: ${d.tema}`, 20, 105);
+            
+            doc.line(20, 110, 190, 110);
+            doc.setFont("helvetica", "bold");
+            doc.text("Descrição da Atividade:", 20, 120);
+            doc.setFont("helvetica", "normal");
+            const descLines = doc.splitTextToSize(d.descricao, 170);
+            doc.text(descLines, 20, 130);
 
+            doc.setFontSize(10);
+            doc.text(`Registrado por ${d.autor} em ${d.dataReg} às ${d.horaReg}`, 20, 285);
+            
+            doc.save(`Acao_SED_${d.titulo}.pdf`);
+        }
 
+        function limparTudo() {
+            if (confirm("Isso apagará permanentemente todos os registros salvos. Continuar?")) {
+                localStorage.removeItem('gremio_sed_v4');
+                renderizarTabela();
+            }
+        }
 
-<div id="logs-screen" class="container hidden">
-
-<h2>Histórico de Registros</h2>
-
-<div style="display:flex;justify-content:space-between;">
-<button onclick="voltarDash()" style="background:#343a40;width:auto;padding:10px 20px;border-radius:6px;">Voltar</button>
-<button class="btn-danger" onclick="limparBanco()">Limpar Tudo</button>
-</div>
-
-<div class="table-container">
-<table>
-<thead>
-<tr>
-<th>Data/Hora</th>
-<th>Autor</th>
-<th>Ação</th>
-<th>Download</th>
-</tr>
-</thead>
-<tbody id="log-table-body"></tbody>
-</table>
-</div>
-
-</div>
-
-
-
-<script>
-
-const { jsPDF } = window.jspdf;
-const users = { "admin":"1234","gremio":"gremio123" };
-const DB_NAME = "gremio_db_v6";
-let loggedUser = "";
-
-/* LOGIN */
-function handleLogin(){
-const u = user.value;
-const p = pass.value;
-if(users[u]===p){
-loggedUser=u;
-login-screen.classList.add("hidden");
-dashboard.classList.remove("hidden");
-user-display.innerText="Usuário: "+u;
-}else alert("Login inválido");
-}
-
-/* SALVAR */
-function salvarAcao(){
-if(!titulo.value || !data.value) return alert("Título e Data são obrigatórios!");
-
-const registro = {
-id:Date.now(),
-autor:loggedUser,
-dataReg:new Date().toLocaleDateString("pt-BR"),
-horaReg:new Date().toLocaleTimeString("pt-BR"),
-titulo:titulo.value,
-dataAcao:data.value,
-qtd:qtd.value || "Não informado",
-proposta:proposta.value,
-tema:tema.value || "Não informado",
-descricao:descricao.value || "Sem descrição"
-};
-
-let logs = JSON.parse(localStorage.getItem(DB_NAME)||"[]");
-logs.push(registro);
-localStorage.setItem(DB_NAME,JSON.stringify(logs));
-
-alert("Ação registrada!");
-document.querySelectorAll("input,textarea").forEach(i=>i.value="");
-}
-
-/* LOGS */
-function acessarLogs(){
-if(prompt("Senha do Administrador:")!=="0000") return alert("Acesso negado!");
-dashboard.classList.add("hidden");
-logs-screen.classList.remove("hidden");
-renderLogs();
-}
-
-function renderLogs(){
-const tbody=document.getElementById("log-table-body");
-const logs=JSON.parse(localStorage.getItem(DB_NAME)||"[]").filter(l=>l.titulo);
-tbody.innerHTML="";
-if(!logs.length) return tbody.innerHTML="<tr><td colspan='4' style='text-align:center'>Nenhum registro</td></tr>";
-
-logs.reverse().forEach(l=>{
-tbody.innerHTML+=`
-<tr>
-<td>${l.dataReg} ${l.horaReg}</td>
-<td><b>${l.autor}</b></td>
-<td>${l.titulo}</td>
-<td><button class="badge-download" onclick="gerarPDF(${l.id})">PDF</button></td>
-</tr>`;
-});
-}
-
-/* PDF */
-function gerarPDF(id){
-
-const logs = JSON.parse(localStorage.getItem(DB_NAME)||"[]");
-const d = logs.find(l=>l.id===id);
-if(!d) return;
-
-const doc = new jsPDF();
-
-/* Cabeçalho */
-doc.setFillColor(0,168,150);
-doc.rect(0,0,210,35,"F");
-
-doc.addImage("BRASAO_ESCOLA.png","PNG",10,5,30,25);
-doc.addImage("LOGO_GREMIO.png","PNG",165,5,35,25);
-
-doc.setTextColor(255,255,255);
-doc.setFontSize(18);
-doc.text("RELATÓRIO DE AÇÃO ESTUDANTIL",105,22,{align:"center"});
-
-/* Corpo */
-doc.setTextColor(0,0,0);
-doc.setFontSize(12);
-
-doc.text("Escola: E.E Profº João Teixeira Sampaio",20,50);
-doc.text("Grêmio: Geração Consciente",20,58);
-
-doc.text(`Título: ${d.titulo}`,20,74);
-doc.text(`Data: ${d.dataAcao}`,20,84);
-doc.text(`Participantes: ${d.qtd}`,20,94);
-doc.text(`Proposta: ${d.proposta}`,20,104);
-doc.text(`Tema: ${d.tema}`,20,114);
-
-doc.line(20,120,190,120);
-doc.text("Descrição da Atividade:",20,130);
-
-const linhas = doc.splitTextToSize(d.descricao,170);
-doc.text(linhas,20,140);
-
-doc.setFontSize(9);
-doc.text(`Emitido em ${d.dataReg} às ${d.horaReg} por ${d.autor}`,20,285);
-
-doc.save(`Relatorio_${d.titulo}.pdf`);
-}
-
-function limparBanco(){
-if(confirm("Deseja realmente apagar tudo?")){
-localStorage.removeItem(DB_NAME);
-renderLogs();
-}
-}
-
-function voltarDash(){
-logs-screen.classList.add("hidden");
-dashboard.classList.remove("hidden");
-}
-
-</script>
+        function voltarDash() {
+            document.getElementById('logs-screen').classList.add('hidden');
+            document.getElementById('dashboard').classList.remove('hidden');
+        }
+    </script>
 </body>
 </html>
