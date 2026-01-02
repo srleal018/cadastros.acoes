@@ -3,338 +3,374 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Sistema Grêmio Estudantil - SED</title>
+
+<title>Portal do Grêmio Estudantil - JTS</title>
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
 <style>
 
 :root{
-    --sed-primary:#00a78e;
-    --sed-secondary:#0077b6;
-    --sed-dark:#1b2c34;
-    --sed-bg:#eaf3f4;
+--primary:#00a896;
+--secondary:#0077b6;
+--dark:#1d2d35;
+--bg:#eef4f7;
 }
 
-/* Fundo */
 body{
-    margin:0;
-    padding:30px;
-    background:linear-gradient(120deg,#00a896,#0091a1,#0077b6);
-    background-size:300% 300%;
-    animation:gradientMove 6s infinite alternate;
-    font-family:Segoe UI,Arial;
-}
-@keyframes gradientMove{
-    from{background-position:left;}
-    to{background-position:right;}
+margin:0;
+background:var(--bg);
+font-family:Segoe UI,Arial;
 }
 
-/* Container */
+/* CARD BASE */
 .container{
-    background:#fff;
-    border-radius:14px;
-    padding:35px;
-    max-width:900px;
-    margin:auto;
-    box-shadow:0 15px 30px rgba(0,0,0,.15);
-    border-top:7px solid var(--sed-primary);
-    animation:fade .4s ease;
-}
-@keyframes fade{
-    from{opacity:0;transform:translateY(10px);}
-    to{opacity:1;transform:translateY(0);}
+background:white;
+width:95%;
+max-width:850px;
+margin:35px auto;
+padding:30px;
+border-radius:12px;
+box-shadow:0 10px 30px rgba(0,0,0,0.15);
+border-top:8px solid var(--primary);
 }
 
-/* Cabeçalho */
+/* TOPO COM LOGOS */
 .header-logos{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    margin-bottom:25px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:25px;
+border-bottom:1px dashed #ccc;
+padding-bottom:15px;
 }
+
 .header-logos img{
-    max-height:95px;
+max-height:95px;
+object-fit:contain;
 }
 
-/* Título */
+/* TITULOS */
 h2{
-    text-align:center;
-    color:var(--sed-dark);
-    margin-top:5px;
-    letter-spacing:.5px;
-    font-weight:700;
+text-align:center;
+color:var(--dark);
+letter-spacing:1px;
+font-weight:700;
 }
 
-/* Inputs */
+/* CAMPOS */
+.form-group{margin-bottom:15px;}
+
 label{
-    font-size:14px;
-    color:#333;
-    font-weight:600;
+font-weight:700;
+color:#555;
 }
+
 input,select,textarea{
-    width:100%;
-    padding:12px;
-    border-radius:6px;
-    border:1px solid #cfd9df;
-    outline:none;
-    transition:.2s;
-    font-size:15px;
-}
-input:focus,select:focus,textarea:focus{
-    border-color:var(--sed-primary);
-    box-shadow:0 0 5px rgba(0,168,150,.6);
+width:100%;
+padding:10px;
+border-radius:6px;
+border:1px solid #ccc;
+font-size:15px;
+background:#fafafa;
 }
 
-/* Botões */
+input:focus,textarea:focus,select:focus{
+outline:none;
+border:1px solid var(--secondary);
+box-shadow:0 0 4px var(--secondary);
+}
+
+/* BOTÕES */
 button{
-    width:100%;
-    padding:14px;
-    border-radius:6px;
-    border:none;
-    cursor:pointer;
-    color:#fff;
-    font-size:16px;
-    font-weight:700;
-    transition:.2s;
-}
-.btn-save{background:var(--sed-primary);}
-.btn-save:hover{transform:scale(1.01);background:#00816d;}
-
-.btn-log{background:#495057;margin-top:10px;}
-.btn-log:hover{transform:scale(1.01);}
-
-.btn-danger{
-    background:#d82335;
-    width:auto;
-    padding:10px 18px;
+width:100%;
+padding:13px;
+border-radius:6px;
+border:none;
+font-weight:700;
+cursor:pointer;
+transition:.2s;
+color:white;
 }
 
+.btn-save{background:var(--primary);}
+.btn-save:hover{transform:scale(1.02);}
+
+.btn-log{background:#495057;margin-top:15px;}
+.btn-log:hover{transform:scale(1.02);}
+
+.btn-danger{background:#c82333;}
+.btn-danger:hover{transform:scale(1.02);}
+
+/* LOGS */
+.table-container{
+margin-top:25px;
+overflow-x:auto;
+}
+
+table{
+width:100%;
+border-collapse:collapse;
+}
+
+th{
+background:#f8f9fa;
+padding:12px;
+border-bottom:2px solid #ddd;
+}
+
+td{
+padding:10px;
+border-bottom:1px solid #eee;
+}
+
+/* ESCONDER TELA */
 .hidden{display:none;}
 
-/* Tabela */
-.table-container{margin-top:15px;overflow:auto;}
-table{width:100%;border-collapse:collapse;}
-th{
-    padding:12px;
-    background:#eef3f4;
-    color:#333;
-}
-td{
-    padding:12px;
-    border-bottom:1px solid #eee;
-}
-
-/* Badge */
 .badge-download{
-    background:var(--sed-primary);
-    padding:7px 12px;
-    border-radius:6px;
-    border:none;
-    color:#fff;
-    cursor:pointer;
+background:var(--primary);
+color:white;
+padding:7px 12px;
+border-radius:5px;
+border:none;
+cursor:pointer;
 }
-.badge-download:hover{opacity:.85}
 
 </style>
 </head>
+
 <body>
 
-<!-- LOGIN -->
 <div id="login-screen" class="container">
-    <div class="header-logos">
-        <img src="image_98ed0f.png">
-        <img src="image_9943fb.png">
-    </div>
 
-    <h2>Portal do Grêmio Estudantil</h2>
-
-    <label>Usuário</label>
-    <input id="user">
-
-    <label>Senha</label>
-    <input type="password" id="pass">
-
-    <button onclick="handleLogin()">Entrar</button>
+<div class="header-logos">
+<img src="BRASAO_ESCOLA.png">
+<img src="LOGO_GREMIO.png">
 </div>
 
-<!-- DASHBOARD -->
+<h2>Acesso ao Portal do Grêmio Estudantil</h2>
+
+<div class="form-group">
+<label>Usuário</label>
+<input id="user">
+</div>
+
+<div class="form-group">
+<label>Senha</label>
+<input type="password" id="pass">
+</div>
+
+<button onclick="handleLogin()" class="btn-save">Entrar</button>
+</div>
+
+
+
+
 <div id="dashboard" class="container hidden">
-<div style="text-align:right;font-size:13px;">
-<span id="user-display"></span> |
-<a href="#" onclick="location.reload()" style="color:#d82335">Sair</a>
+
+<div style="text-align:right;">
+<span id="user-display" style="font-size:12px;font-weight:bold;"></span> |
+<a onclick="location.reload()" style="color:#c82333;font-size:12px;cursor:pointer;">Sair</a>
 </div>
 
-<h2>Cadastro de Ação Estudantil</h2>
+<h2>Cadastrar Ação Estudantil</h2>
 
-<label>Título</label>
+<div class="form-group">
+<label>Título da Ação</label>
 <input id="titulo">
+</div>
 
 <div style="display:flex;gap:10px;">
-<div style="flex:1">
+<div class="form-group" style="flex:1">
 <label>Data</label>
 <input type="date" id="data">
 </div>
 
-<div style="flex:1">
+<div class="form-group" style="flex:1">
 <label>Participantes</label>
 <input type="number" id="qtd">
 </div>
 </div>
 
+<div class="form-group">
 <label>Origem da Proposta</label>
 <select id="proposta">
-<option>Grêmio</option>
-<option>Gestão Escolar</option>
-<option>GRESP - SEDUC</option>
+<option value="Grêmio">Grêmio</option>
+<option value="Gestão Escolar">Gestão Escolar</option>
+<option value="GRESP / SEDUC">GRESP / SEDUC</option>
 </select>
-
-<label>Tema</label>
-<input id="tema">
-
-<label>Descrição Completa</label>
-<textarea rows="4" id="descricao"></textarea>
-
-<button class="btn-save" onclick="salvarAcao()">Salvar Registro</button>
-<button class="btn-log" onclick="acessarLogs()">Ver Logs</button>
 </div>
 
-<!-- LOGS -->
+<div class="form-group">
+<label>Tema</label>
+<input id="tema">
+</div>
+
+<div class="form-group">
+<label>Descrição Completa</label>
+<textarea rows="4" id="descricao"></textarea>
+</div>
+
+<button class="btn-save" onclick="salvarAcao()">Salvar Registro</button>
+<button class="btn-log" onclick="acessarLogs()">Ver Histórico</button>
+</div>
+
+
+
+
 <div id="logs-screen" class="container hidden">
+
 <h2>Histórico de Registros</h2>
 
 <div style="display:flex;justify-content:space-between;">
-<button style="background:#343a40;width:auto;padding:10px 20px" onclick="voltarDash()">Voltar</button>
-<button class="btn-danger" onclick="limparBanco()">Limpar Histórico</button>
+<button onclick="voltarDash()" style="background:#343a40;width:auto;padding:10px 20px;border-radius:6px;">Voltar</button>
+<button class="btn-danger" onclick="limparBanco()">Limpar Tudo</button>
 </div>
 
 <div class="table-container">
 <table>
 <thead>
 <tr>
-<th>Data</th>
+<th>Data/Hora</th>
 <th>Autor</th>
 <th>Ação</th>
-<th>PDF</th>
+<th>Download</th>
 </tr>
 </thead>
 <tbody id="log-table-body"></tbody>
 </table>
 </div>
+
 </div>
 
+
+
 <script>
+
 const { jsPDF } = window.jspdf;
-const users={admin:"1234",gremio:"gremio123"};
-let loggedUser="";
-const DB='gremio_db_v6';
+const users = { "admin":"1234","gremio":"gremio123" };
+const DB_NAME = "gremio_db_v6";
+let loggedUser = "";
 
+/* LOGIN */
 function handleLogin(){
- let u=user.value,p=pass.value;
- if(users[u]===p){
- loggedUser=u;
- login-screen.classList.add("hidden");
- dashboard.classList.remove("hidden");
- user-display.innerText="Usuário: "+u;
- }else alert("Login inválido");
+const u = user.value;
+const p = pass.value;
+if(users[u]===p){
+loggedUser=u;
+login-screen.classList.add("hidden");
+dashboard.classList.remove("hidden");
+user-display.innerText="Usuário: "+u;
+}else alert("Login inválido");
 }
 
+/* SALVAR */
 function salvarAcao(){
- let r={
- id:Date.now(),
- autor:loggedUser,
- dataReg:new Date().toLocaleDateString(),
- horaReg:new Date().toLocaleTimeString(),
- titulo:titulo.value,
- dataAcao:data.value,
- qtd:qtd.value,
- proposta:proposta.value,
- tema:tema.value,
- descricao:descricao.value
- };
- if(!r.titulo||!r.dataAcao) return alert("Preencha título e data!");
- let logs=JSON.parse(localStorage.getItem(DB)||"[]");
- logs.push(r);
- localStorage.setItem(DB,JSON.stringify(logs));
- alert("Salvo com sucesso!");
- document.querySelectorAll('input,textarea').forEach(x=>x.value="");
+if(!titulo.value || !data.value) return alert("Título e Data são obrigatórios!");
+
+const registro = {
+id:Date.now(),
+autor:loggedUser,
+dataReg:new Date().toLocaleDateString("pt-BR"),
+horaReg:new Date().toLocaleTimeString("pt-BR"),
+titulo:titulo.value,
+dataAcao:data.value,
+qtd:qtd.value || "Não informado",
+proposta:proposta.value,
+tema:tema.value || "Não informado",
+descricao:descricao.value || "Sem descrição"
+};
+
+let logs = JSON.parse(localStorage.getItem(DB_NAME)||"[]");
+logs.push(registro);
+localStorage.setItem(DB_NAME,JSON.stringify(logs));
+
+alert("Ação registrada!");
+document.querySelectorAll("input,textarea").forEach(i=>i.value="");
 }
 
+/* LOGS */
 function acessarLogs(){
- if(prompt("Senha restrita:")=="0000"){
- dashboard.classList.add("hidden");
- logs-screen.classList.remove("hidden");
- renderLogs();
- }else alert("Negado");
+if(prompt("Senha do Administrador:")!=="0000") return alert("Acesso negado!");
+dashboard.classList.add("hidden");
+logs-screen.classList.remove("hidden");
+renderLogs();
 }
 
 function renderLogs(){
- let t=log-table-body;
- let logs=JSON.parse(localStorage.getItem(DB)||"[]").filter(l=>l&&l.titulo);
- t.innerHTML="";
- if(!logs.length){
- t.innerHTML="<tr><td colspan=4 style='text-align:center'>Nenhum registro</td></tr>";
- return;
- }
- logs.reverse().forEach(l=>{
- t.innerHTML+=`
+const tbody=document.getElementById("log-table-body");
+const logs=JSON.parse(localStorage.getItem(DB_NAME)||"[]").filter(l=>l.titulo);
+tbody.innerHTML="";
+if(!logs.length) return tbody.innerHTML="<tr><td colspan='4' style='text-align:center'>Nenhum registro</td></tr>";
+
+logs.reverse().forEach(l=>{
+tbody.innerHTML+=`
 <tr>
 <td>${l.dataReg} ${l.horaReg}</td>
 <td><b>${l.autor}</b></td>
 <td>${l.titulo}</td>
-<td><button class="badge-download" onclick="gerarPDF(${l.id})">Baixar</button></td>
+<td><button class="badge-download" onclick="gerarPDF(${l.id})">PDF</button></td>
 </tr>`;
- });
+});
 }
 
+/* PDF */
 function gerarPDF(id){
- let d=JSON.parse(localStorage.getItem(DB)).find(x=>x.id===id);
- if(!d)return;
- let doc=new jsPDF();
 
- doc.setFillColor(0,168,150);
- doc.rect(0,0,210,40,"F");
+const logs = JSON.parse(localStorage.getItem(DB_NAME)||"[]");
+const d = logs.find(l=>l.id===id);
+if(!d) return;
 
- doc.setTextColor(255,255,255);
- doc.setFontSize(20);
- doc.text("RELATÓRIO DE AÇÃO ESTUDANTIL",105,25,{align:"center"});
+const doc = new jsPDF();
 
- doc.setTextColor(0,0,0);
- doc.setFontSize(12);
+/* Cabeçalho */
+doc.setFillColor(0,168,150);
+doc.rect(0,0,210,35,"F");
 
- doc.text("Escola: E.E. Profº João Teixeira Sampaio",20,55);
- doc.text("Grêmio: Geração Consciente",20,63);
+doc.addImage("BRASAO_ESCOLA.png","PNG",10,5,30,25);
+doc.addImage("LOGO_GREMIO.png","PNG",165,5,35,25);
 
- doc.text("Título: "+d.titulo,20,78);
- doc.text("Data da Ação: "+d.dataAcao,20,88);
- doc.text("Participantes: "+d.qtd,20,98);
- doc.text("Proposta: "+d.proposta,20,108);
- doc.text("Tema: "+d.tema,20,118);
+doc.setTextColor(255,255,255);
+doc.setFontSize(18);
+doc.text("RELATÓRIO DE AÇÃO ESTUDANTIL",105,22,{align:"center"});
 
- doc.line(20,125,190,125);
- doc.setFont("helvetica","bold");
- doc.text("Descrição:",20,135);
- doc.setFont("helvetica","normal");
+/* Corpo */
+doc.setTextColor(0,0,0);
+doc.setFontSize(12);
 
- let lines=doc.splitTextToSize(d.descricao,170);
- doc.text(lines,20,145);
+doc.text("Escola: E.E Profº João Teixeira Sampaio",20,50);
+doc.text("Grêmio: Geração Consciente",20,58);
 
- doc.setFontSize(10);
- doc.text("Emitido em: "+d.dataReg+" às "+d.horaReg+" por "+d.autor,20,285);
+doc.text(`Título: ${d.titulo}`,20,74);
+doc.text(`Data: ${d.dataAcao}`,20,84);
+doc.text(`Participantes: ${d.qtd}`,20,94);
+doc.text(`Proposta: ${d.proposta}`,20,104);
+doc.text(`Tema: ${d.tema}`,20,114);
 
- doc.save("Relatorio_"+d.titulo+".pdf");
+doc.line(20,120,190,120);
+doc.text("Descrição da Atividade:",20,130);
+
+const linhas = doc.splitTextToSize(d.descricao,170);
+doc.text(linhas,20,140);
+
+doc.setFontSize(9);
+doc.text(`Emitido em ${d.dataReg} às ${d.horaReg} por ${d.autor}`,20,285);
+
+doc.save(`Relatorio_${d.titulo}.pdf`);
 }
 
 function limparBanco(){
- if(confirm("Apagar tudo?")){
- localStorage.removeItem(DB);
- renderLogs();
+if(confirm("Deseja realmente apagar tudo?")){
+localStorage.removeItem(DB_NAME);
+renderLogs();
 }
 }
-function voltarDash(){
- logs-screen.classList.add("hidden");
- dashboard.classList.remove("hidden");
-}
-</script>
 
+function voltarDash(){
+logs-screen.classList.add("hidden");
+dashboard.classList.remove("hidden");
+}
+
+</script>
 </body>
 </html>
