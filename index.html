@@ -3,48 +3,72 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sistema Grêmio Estudantil - SED</title>
+    <title>Sistema Grêmio JTS - Geração Consciente</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <style>
-        :root { --primary: #1a2a6c; --secondary: #b21f1f; --light: #f4f7f6; }
-        body { font-family: 'Segoe UI', sans-serif; background: #f0f2f5; margin: 0; display: flex; justify-content: center; align-items: center; min-height: 100vh; }
-        .container { background: white; padding: 2rem; border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); width: 90%; max-width: 700px; }
-        h2 { text-align: center; color: var(--primary); }
-        .form-group { margin-bottom: 1rem; }
-        label { display: block; margin-bottom: 0.4rem; font-weight: 600; }
-        input, select, textarea { width: 100%; padding: 0.7rem; border: 1px solid #ccc; border-radius: 6px; box-sizing: border-box; }
-        button { width: 100%; padding: 0.9rem; background: var(--primary); color: white; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; margin-top: 10px; transition: 0.2s; }
-        button:hover { opacity: 0.9; }
-        .btn-log { background: #444; }
-        .btn-danger { background: #e74c3c; width: auto; padding: 8px 15px; margin-bottom: 10px; }
-        .btn-download { background: #27ae60; padding: 6px 12px; font-size: 12px; width: auto; margin: 0; }
+        :root { --primary: #000000; --secondary: #2c3e50; --accent: #f1c40f; --light: #f8f9fa; }
+        
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #eef2f3; margin: 0; padding: 20px; }
+        
+        .container { background: white; padding: 2rem; border-radius: 15px; box-shadow: 0 8px 30px rgba(0,0,0,0.15); width: 95%; max-width: 800px; margin: auto; }
+
+        /* Estilização das Logos */
+        .header-logos { display: flex; justify-content: space-around; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 10px; }
+        .header-logos img { height: 100px; width: auto; object-fit: contain; }
+        
+        h2 { text-align: center; color: var(--primary); text-transform: uppercase; letter-spacing: 1px; border-bottom: 2px solid #eee; padding-bottom: 10px; }
+
+        .form-group { margin-bottom: 15px; }
+        label { display: block; margin-bottom: 5px; font-weight: bold; color: #333; }
+        
+        input, select, textarea { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 8px; box-sizing: border-box; font-size: 15px; }
+        
+        button { width: 100%; padding: 12px; background: var(--primary); color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; font-size: 16px; margin-top: 10px; transition: 0.3s; }
+        button:hover { background: #333; transform: translateY(-2px); }
+
+        .btn-log { background: #5a6268; margin-top: 15px; }
+        .btn-danger { background: #d9534f; width: auto; padding: 8px 15px; }
+        .btn-download { background: #28a745; padding: 6px 12px; font-size: 12px; width: auto; margin: 0; }
+
         .hidden { display: none; }
-        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
-        th, td { text-align: left; padding: 12px; border-bottom: 1px solid #ddd; font-size: 13px; }
-        th { background: #f8f9fa; color: #333; }
-        .header-nav { display: flex; justify-content: flex-end; margin-bottom: 10px; }
+
+        /* Tabela de Logs */
+        .table-container { overflow-x: auto; margin-top: 20px; }
+        table { width: 100%; border-collapse: collapse; background: white; }
+        th, td { text-align: left; padding: 12px; border-bottom: 1px solid #ddd; font-size: 14px; }
+        th { background: #f2f2f2; color: #333; }
+        tr:hover { background: #f9f9f9; }
+
+        @media (max-width: 600px) { .header-logos img { height: 70px; } }
     </style>
 </head>
 <body>
 
     <div id="login-screen" class="container">
-        <h2>Login Grêmio Estudantil</h2>
-        <div class="form-group"><label>Usuário</label><input type="text" id="user" placeholder="Usuário"></div>
-        <div class="form-group"><label>Senha</label><input type="password" id="pass" placeholder="Senha"></div>
-        <button onclick="handleLogin()">Entrar</button>
+        <div class="header-logos">
+            <img src="image_98ed0f.png" alt="Logo Escola JTS">
+            <img src="image_9943fb.png" alt="Logo Grêmio Geração Consciente">
+        </div>
+        <h2>Acesso Restrito</h2>
+        <div class="form-group"><label>Usuário</label><input type="text" id="user" placeholder="Digite seu usuário"></div>
+        <div class="form-group"><label>Senha</label><input type="password" id="pass" placeholder="Digite sua senha"></div>
+        <button onclick="handleLogin()">Entrar no Sistema</button>
     </div>
 
     <div id="dashboard" class="container hidden">
-        <div class="header-nav">
-            <button onclick="location.reload()" style="width:auto; background:#e74c3c; padding: 5px 15px; font-size: 12px;">Sair</button>
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+            <small id="user-display" style="font-weight: bold;"></small>
+            <button onclick="location.reload()" style="width: auto; padding: 5px 15px; background: #c0392b;">Sair</button>
         </div>
-        <h2>Registrar Ação SED</h2>
+        <h2>Registrar Ação Estudantil</h2>
         
-        <div class="form-group"><label>Título da Ação</label><input type="text" id="titulo"></div>
-        <div style="display: flex; gap: 10px;">
-            <div class="form-group" style="flex: 1;"><label>Data</label><input type="date" id="data"></div>
-            <div class="form-group" style="flex: 1;"><label>Nº de Alunos Participantes</label><input type="number" id="qtd_alunos"></div>
+        <div class="form-group"><label>Título / Nome da Ação</label><input type="text" id="titulo"></div>
+        
+        <div style="display: flex; gap: 15px;">
+            <div class="form-group" style="flex: 1;"><label>Data da Ação</label><input type="date" id="data"></div>
+            <div class="form-group" style="flex: 1;"><label>Qtd. Alunos Participantes</label><input type="number" id="qtd"></div>
         </div>
+
         <div class="form-group">
             <label>Proposta de Ação</label>
             <select id="proposta">
@@ -53,27 +77,28 @@
                 <option value="GRESP - SEDUC">GRESP - SEDUC</option>
             </select>
         </div>
-        <div class="form-group"><label>Tema</label><input type="text" id="tema"></div>
-        <div class="form-group"><label>Descrição Detalhada</label><textarea id="descricao" rows="3"></textarea></div>
 
-        <button onclick="salvarAcao()">Salvar Registro de Ação</button>
-        <button class="btn-log" onclick="acessarLogs()">Acessar Histórico de Logs</button>
+        <div class="form-group"><label>Tema</label><input type="text" id="tema" placeholder="Ex: Cultura, Esporte, Meio Ambiente"></div>
+        <div class="form-group"><label>Descrição da Ação</label><textarea id="descricao" rows="4"></textarea></div>
+
+        <button onclick="salvarAcao()">Salvar Registro</button>
+        <button class="btn-log" onclick="acessarLogs()">Ver Histórico de Ações</button>
     </div>
 
     <div id="logs-screen" class="container hidden" style="max-width: 900px;">
-        <h2>Histórico de Ações Registradas</h2>
-        <div style="display: flex; justify-content: space-between;">
-            <button class="btn-danger" onclick="limparTudo()">Limpar Tudo</button>
+        <h2>Histórico de Logs - JTS</h2>
+        <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+            <button class="btn-danger" onclick="limparTudo()">Limpar Erros/Histórico</button>
             <button onclick="voltarDash()" style="background: #7f8c8d; width: auto; padding: 8px 20px;">Voltar</button>
         </div>
-        <div style="overflow-x: auto;">
+        <div class="table-container">
             <table>
                 <thead>
                     <tr>
                         <th>Data/Hora Registro</th>
                         <th>Responsável</th>
                         <th>Título</th>
-                        <th>Arquivo</th>
+                        <th>Download</th>
                     </tr>
                 </thead>
                 <tbody id="log-table-body"></tbody>
@@ -93,106 +118,109 @@
                 loggedUser = u;
                 document.getElementById('login-screen').classList.add('hidden');
                 document.getElementById('dashboard').classList.remove('hidden');
-            } else { alert("Usuário ou senha incorretos."); }
+                document.getElementById('user-display').innerText = "Usuário: " + u;
+            } else { alert("Acesso negado!"); }
         }
 
         function salvarAcao() {
-            const titulo = document.getElementById('titulo').value;
-            const dataAcao = document.getElementById('data').value;
-            const qtd = document.getElementById('qtd_alunos').value;
-            const proposta = document.getElementById('proposta').value;
-            const tema = document.getElementById('tema').value;
-            const descricao = document.getElementById('descricao').value;
+            const dados = {
+                titulo: document.getElementById('titulo').value,
+                dataAcao: document.getElementById('data').value,
+                qtd: document.getElementById('qtd').value,
+                proposta: document.getElementById('proposta').value,
+                tema: document.getElementById('tema').value,
+                descricao: document.getElementById('descricao').value
+            };
 
-            if(!titulo || !dataAcao) return alert("Erro: Título e Data são obrigatórios!");
+            if (!dados.titulo || !dados.dataAcao) {
+                alert("Preencha o Título e a Data!");
+                return;
+            }
 
-            const novaAcao = {
+            const registro = {
                 id: Date.now(),
                 autor: loggedUser,
                 dataReg: new Date().toLocaleDateString('pt-BR'),
                 horaReg: new Date().toLocaleTimeString('pt-BR'),
-                titulo, dataAcao, qtd, proposta, tema, descricao
+                ...dados
             };
 
-            let logs = JSON.parse(localStorage.getItem('gremio_db') || "[]");
-            logs.push(novaAcao);
-            localStorage.setItem('gremio_db', JSON.stringify(logs));
+            // Salva no banco de dados JTS_V3 para evitar conflito com os "undefined" antigos
+            let logs = JSON.parse(localStorage.getItem('gremio_jts_v3') || "[]");
+            logs.push(registro);
+            localStorage.setItem('gremio_jts_v3', JSON.stringify(logs));
 
-            alert("Ação registrada com sucesso! Vá nos Logs para baixar o PDF.");
+            alert("Ação registrada com sucesso!");
             document.querySelectorAll('input, textarea').forEach(el => el.value = "");
         }
 
         function acessarLogs() {
-            const senhaAcesso = prompt("Acesso Restrito. Digite a senha:");
-            if (senhaAcesso === "0000") {
+            const s = prompt("Digite a senha de segurança para acessar os logs:");
+            if (s === "0000") {
                 document.getElementById('dashboard').classList.add('hidden');
                 document.getElementById('logs-screen').classList.remove('hidden');
                 renderizarTabela();
-            } else {
-                alert("Senha incorreta!");
-            }
+            } else { alert("Senha incorreta!"); }
         }
 
         function renderizarTabela() {
             const tbody = document.getElementById('log-table-body');
-            const logs = JSON.parse(localStorage.getItem('gremio_db') || "[]");
+            const logs = JSON.parse(localStorage.getItem('gremio_jts_v3') || "[]");
             tbody.innerHTML = "";
 
-            // Filtro rigoroso para não mostrar registros vazios/undefined
-            const validLogs = logs.filter(item => item && item.titulo && item.autor);
+            // Filtro rigoroso: Só mostra se tiver título (remove os undefined)
+            const logsValidos = logs.filter(item => item && item.titulo);
 
-            if(validLogs.length === 0) {
-                tbody.innerHTML = "<tr><td colspan='4' style='text-align:center;'>Nenhum registro encontrado.</td></tr>";
+            if (logsValidos.length === 0) {
+                tbody.innerHTML = "<tr><td colspan='4' style='text-align:center;'>Nenhum registro válido encontrado.</td></tr>";
                 return;
             }
 
-            validLogs.reverse().forEach((item) => {
+            logsValidos.reverse().forEach((item) => {
                 const tr = document.createElement('tr');
                 tr.innerHTML = `
-                    <td>${item.dataReg} - ${item.horaReg}</td>
+                    <td>${item.dataReg} às ${item.horaReg}</td>
                     <td><strong>${item.autor}</strong></td>
                     <td>${item.titulo}</td>
-                    <td><button class="btn-download" onclick="baixarPDF(${item.id})">Gerar PDF</button></td>
+                    <td><button class="btn-download" onclick="gerarPDF(${item.id})">Baixar PDF</button></td>
                 `;
                 tbody.appendChild(tr);
             });
         }
 
-        function baixarPDF(id) {
-            const logs = JSON.parse(localStorage.getItem('gremio_db') || "[]");
+        function gerarPDF(id) {
+            const logs = JSON.parse(localStorage.getItem('gremio_jts_v3') || "[]");
             const d = logs.find(l => l.id === id);
-            if(!d) return;
+            if (!d) return;
 
             const doc = new jsPDF();
             doc.setFont("helvetica", "bold");
-            doc.setFontSize(18);
-            doc.text("REGISTRO DE AÇÃO - GRÊMIO ESTUDANTIL", 20, 25);
+            doc.text("RELATÓRIO DE AÇÃO - GRÊMIO JTS", 105, 20, { align: "center" });
             
             doc.setFontSize(12);
             doc.setFont("helvetica", "normal");
-            doc.text(`Título: ${d.titulo}`, 20, 45);
-            doc.text(`Data da Ação: ${d.dataAcao}`, 20, 55);
-            doc.text(`Participantes: ${d.qtd} alunos`, 20, 65);
-            doc.text(`Proposta: ${d.proposta}`, 20, 75);
-            doc.text(`Tema: ${d.tema}`, 20, 85);
+            doc.text(`Título: ${d.titulo}`, 20, 40);
+            doc.text(`Data da Ação: ${d.dataAcao}`, 20, 50);
+            doc.text(`Participantes: ${d.qtd}`, 20, 60);
+            doc.text(`Proposta de Ação: ${d.proposta}`, 20, 70);
+            doc.text(`Tema: ${d.tema}`, 20, 80);
             
-            doc.line(20, 92, 190, 92);
             doc.setFont("helvetica", "bold");
-            doc.text("Descrição da Atividade:", 20, 102);
-            
+            doc.text("Descrição:", 20, 100);
             doc.setFont("helvetica", "normal");
-            const descSplit = doc.splitTextToSize(d.descricao, 170);
-            doc.text(descSplit, 20, 110);
+            const descLines = doc.splitTextToSize(d.descricao, 170);
+            doc.text(descLines, 20, 110);
 
-            doc.setFontSize(9);
-            doc.text(`Documento gerado em: ${d.dataReg} às ${d.horaReg} | Autor: ${d.autor}`, 20, 285);
+            doc.setFontSize(10);
+            doc.text(`Registrado por: ${d.autor} em ${d.dataReg} às ${d.horaReg}`, 20, 280);
             
-            doc.save(`Relatorio_${d.titulo.replace(/\s+/g, '_')}.pdf`);
+            doc.save(`Acao_JTS_${d.titulo}.pdf`);
         }
 
         function limparTudo() {
-            if(confirm("ATENÇÃO: Isso apagará permanentemente todos os registros e erros de 'undefined'. Continuar?")) {
-                localStorage.removeItem('gremio_db');
+            if (confirm("Isso apagará todos os registros e corrigirá os erros de 'undefined'. Deseja continuar?")) {
+                localStorage.removeItem('gremio_jts_v3');
+                localStorage.removeItem('gremio_db'); // Limpa bancos antigos também
                 renderizarTabela();
             }
         }
