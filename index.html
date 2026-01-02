@@ -3,19 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sistema Grêmio Estudantil - Registro de Ações</title>
+    <title>Sistema Grêmio Estudantil - SED</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <style>
         :root {
-            --primary: #2c3e50;
-            --secondary: #3498db;
-            --accent: #e74c3c;
+            --primary: #1a2a6c;
+            --secondary: #b21f1f;
+            --accent: #fdbb2d;
             --light: #f4f7f6;
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: var(--light);
+            font-family: 'Segoe UI', sans-serif;
+            background: linear-gradient(to right, #ece9e6, #ffffff);
             margin: 0;
             display: flex;
             justify-content: center;
@@ -26,52 +26,77 @@
         .container {
             background: white;
             padding: 2rem;
-            border-radius: 8px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-            width: 100%;
-            max-width: 500px;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            width: 90%;
+            max-width: 600px;
         }
 
-        h2 { text-align: center; color: var(--primary); }
+        h2 { text-align: center; color: var(--primary); margin-bottom: 1.5rem; }
 
         .form-group { margin-bottom: 1rem; }
-        label { display: block; margin-bottom: 0.5rem; font-weight: bold; }
+        label { display: block; margin-bottom: 0.4rem; font-weight: 600; color: #333; }
+        
         input, select, textarea {
             width: 100%;
-            padding: 0.8rem;
-            border: 1px solid #ddd;
-            border-radius: 4px;
+            padding: 0.7rem;
+            border: 1px solid #ccc;
+            border-radius: 6px;
             box-sizing: border-box;
+            font-size: 14px;
         }
 
         button {
             width: 100%;
-            padding: 1rem;
-            background-color: var(--secondary);
+            padding: 0.9rem;
+            background-color: var(--primary);
             color: white;
             border: none;
-            border-radius: 4px;
+            border-radius: 6px;
             cursor: pointer;
             font-size: 1rem;
+            font-weight: bold;
             transition: 0.3s;
+            margin-top: 10px;
         }
 
-        button:hover { background-color: #2980b9; }
+        button:hover { opacity: 0.9; transform: translateY(-1px); }
+
+        .btn-log { background-color: #555; }
+        .btn-download { 
+            background-color: #27ae60; 
+            padding: 5px 10px; 
+            font-size: 12px; 
+            width: auto; 
+            margin-top: 0;
+        }
 
         .hidden { display: none; }
 
-        .log-item {
-            border-bottom: 1px solid #eee;
-            padding: 10px 0;
-            font-size: 0.9rem;
+        /* Estilo da Tabela de Logs */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            font-size: 13px;
         }
 
-        #nav-menu {
+        th, td {
+            text-align: left;
+            padding: 12px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th { background-color: #f8f9fa; }
+
+        .header-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid var(--light);
+            padding-bottom: 10px;
             margin-bottom: 20px;
-            text-align: center;
         }
-
-        .btn-log { background-color: var(--primary); margin-top: 10px; }
     </style>
 </head>
 <body>
@@ -80,74 +105,88 @@
         <h2>Login Grêmio Estudantil</h2>
         <div class="form-group">
             <label>Usuário</label>
-            <input type="text" id="user" placeholder="Ex: gremio_presidencia">
+            <input type="text" id="user" placeholder="Usuário registrado">
         </div>
         <div class="form-group">
             <label>Senha</label>
             <input type="password" id="pass" placeholder="****">
         </div>
-        <button onclick="handleLogin()">Entrar</button>
-        <p id="login-error" style="color:red; text-align:center; display:none;">Credenciais inválidas!</p>
+        <button onclick="handleLogin()">Entrar no Sistema</button>
+        <p id="login-error" style="color:red; text-align:center; display:none;">Usuário ou senha incorretos!</p>
     </div>
 
     <div id="dashboard" class="container hidden">
-        <div id="nav-menu">
-            <span id="user-role-display">Bem-vindo!</span> | 
-            <a href="#" onclick="logout()">Sair</a>
+        <div class="header-info">
+            <small id="user-role-display"></small>
+            <button onclick="logout()" style="width: auto; padding: 5px 10px; background: #e74c3c;">Sair</button>
         </div>
-        <h2>Cadastrar Ação</h2>
+        <h2>Registrar Ação SED</h2>
         
         <div class="form-group">
-            <label>Título/Nome da Ação</label>
-            <input type="text" id="titulo" required>
+            <label>Título da Ação</label>
+            <input type="text" id="titulo">
         </div>
 
-        <div class="form-group">
-            <label>Data</label>
-            <input type="date" id="data" required>
-        </div>
-
-        <div class="form-group">
-            <label>Quantidade de Alunos Participantes</label>
-            <input type="number" id="qtd_alunos" required>
+        <div style="display: flex; gap: 10px;">
+            <div class="form-group" style="flex: 1;">
+                <label>Data</label>
+                <input type="date" id="data">
+            </div>
+            <div class="form-group" style="flex: 1;">
+                <label>Nº de Alunos</label>
+                <input type="number" id="qtd_alunos">
+            </div>
         </div>
 
         <div class="form-group">
             <label>Proposta de Ação</label>
             <select id="proposta">
-                <option value="Grêmio">Grêmio</option>
-                <option value="Gestão">Gestão</option>
+                <option value="Grêmio">Sugestão do Grêmio</option>
+                <option value="Gestão">Sugestão da Gestão</option>
             </select>
         </div>
 
         <div class="form-group">
-            <label>Tema</label>
-            <input type="text" id="tema" placeholder="Ex: Meio Ambiente, Cultura...">
+            <label>Tema da Ação</label>
+            <input type="text" id="tema" placeholder="Ex: Protagonismo Juvenil">
         </div>
 
         <div class="form-group">
-            <label>Descrição</label>
-            <textarea id="descricao" rows="4"></textarea>
+            <label>Descrição Detalhada</label>
+            <textarea id="descricao" rows="3"></textarea>
         </div>
 
-        <button onclick="gerarRelatorio()">Gerar PDF e Salvar</button>
-        <button class="btn-log" onclick="acessarLogs()">Ver Logs (Área Restrita)</button>
+        <button onclick="salvarAcao()">Salvar Registro</button>
+        <button class="btn-log" onclick="acessarLogs()">Acessar Logs de PDFs (0000)</button>
     </div>
 
-    <div id="logs-screen" class="container hidden">
-        <h2>Histórico de Ações (Logs)</h2>
-        <div id="log-list"></div>
-        <button onclick="voltarDash()">Voltar</button>
+    <div id="logs-screen" class="container hidden" style="max-width: 800px;">
+        <h2>Histórico de Atividades</h2>
+        <div style="overflow-x: auto;">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Data/Hora Registro</th>
+                        <th>Autor</th>
+                        <th>Título da Ação</th>
+                        <th>Ação</th>
+                    </tr>
+                </thead>
+                <tbody id="log-table-body">
+                    </tbody>
+            </table>
+        </div>
+        <button onclick="voltarDash()" style="background-color: #7f8c8d;">Voltar ao Cadastro</button>
     </div>
 
     <script>
         const { jsPDF } = window.jspdf;
 
-        // Simulação de banco de dados de usuários
+        // Usuários permitidos (Exemplo)
         const users = {
             "admin": "1234",
-            "secretaria": "esc2024",
-            "gremio": "gremio123"
+            "gremio_presidencia": "sed2024",
+            "secretaria": "escola123"
         };
 
         let loggedUser = "";
@@ -160,88 +199,109 @@
                 loggedUser = u;
                 document.getElementById('login-screen').classList.add('hidden');
                 document.getElementById('dashboard').classList.remove('hidden');
-                document.getElementById('user-role-display').innerText = `Usuário: ${u}`;
+                document.getElementById('user-role-display').innerText = `Logado como: ${u}`;
             } else {
                 document.getElementById('login-error').style.display = 'block';
             }
         }
 
-        function logout() {
-            location.reload();
-        }
+        function logout() { location.reload(); }
 
-        function gerarRelatorio() {
-            const acao = {
-                titulo: document.getElementById('titulo').value,
-                data: document.getElementById('data').value,
-                qtd: document.getElementById('qtd_alunos').value,
-                proposta: document.getElementById('proposta').value,
-                tema: document.getElementById('tema').value,
-                descricao: document.getElementById('descricao').value,
-                autor: loggedUser,
-                timestamp: new Date().toLocaleString()
-            };
+        // SALVA A AÇÃO NOS LOGS, MAS NÃO GERA PDF AINDA
+        function salvarAcao() {
+            const titulo = document.getElementById('titulo').value;
+            const dataAcao = document.getElementById('data').value;
+            const qtd = document.getElementById('qtd_alunos').value;
+            const proposta = document.getElementById('proposta').value;
+            const tema = document.getElementById('tema').value;
+            const descricao = document.getElementById('descricao').value;
 
-            if(!acao.titulo || !acao.data) {
-                alert("Preencha o título e a data!");
+            if(!titulo || !dataAcao) {
+                alert("Por favor, preencha ao menos o título e a data.");
                 return;
             }
 
-            // 1. Salvar nos Logs (localStorage)
-            let logs = JSON.parse(localStorage.getItem('gremio_logs') || "[]");
-            logs.push(acao);
-            localStorage.setItem('gremio_logs', JSON.stringify(logs));
+            const novaAcao = {
+                id: Date.now(),
+                autor: loggedUser,
+                dataRegistro: new Date().toLocaleDateString('pt-BR'),
+                horaRegistro: new Date().toLocaleTimeString('pt-BR'),
+                titulo, dataAcao, qtd, proposta, tema, descricao
+            };
 
-            // 2. Gerar PDF
-            const doc = new jsPDF();
-            doc.setFontSize(20);
-            doc.text("Relatório de Ação - Grêmio Estudantil", 20, 20);
-            
-            doc.setFontSize(12);
-            doc.text(`Título: ${acao.titulo}`, 20, 40);
-            doc.text(`Data: ${acao.data}`, 20, 50);
-            doc.text(`Participantes: ${acao.qtd}`, 20, 60);
-            doc.text(`Proposta por: ${acao.proposta}`, 20, 70);
-            doc.text(`Tema: ${acao.tema}`, 20, 80);
-            doc.text(`Responsável pelo registro: ${acao.autor}`, 20, 90);
-            
-            doc.text("Descrição:", 20, 110);
-            const splitDesc = doc.splitTextToSize(acao.descricao, 170);
-            doc.text(splitDesc, 20, 120);
+            let logs = JSON.parse(localStorage.getItem('gremio_dados') || "[]");
+            logs.push(novaAcao);
+            localStorage.setItem('gremio_dados', JSON.stringify(logs));
 
-            doc.save(`Acao_${acao.titulo}.pdf`);
-            alert("Ação registrada e PDF gerado com sucesso!");
+            alert("Ação registrada com sucesso nos logs!");
             
-            // Limpar formulário
+            // Limpa os campos
             document.querySelectorAll('input, textarea').forEach(el => el.value = "");
         }
 
         function acessarLogs() {
-            const senhaLogs = prompt("Digite a senha de acesso aos logs:");
-            if (senhaLogs === "0000") {
+            const senha = prompt("Digite a senha secreta dos Logs:");
+            if (senha === "0000") {
                 document.getElementById('dashboard').classList.add('hidden');
                 document.getElementById('logs-screen').classList.remove('hidden');
-                renderLogs();
+                renderizarTabela();
             } else {
-                alert("Senha incorreta!");
+                alert("Acesso negado.");
             }
         }
 
-        function renderLogs() {
-            const list = document.getElementById('log-list');
-            const logs = JSON.parse(localStorage.getItem('gremio_logs') || "[]");
+        function renderizarTabela() {
+            const tbody = document.getElementById('log-table-body');
+            const logs = JSON.parse(localStorage.getItem('gremio_dados') || "[]");
             
-            if (logs.length === 0) {
-                list.innerHTML = "<p>Nenhum log encontrado.</p>";
-                return;
-            }
+            tbody.innerHTML = "";
 
-            list.innerHTML = logs.map(log => `
-                <div class="log-item">
-                    <strong>${log.timestamp}</strong> - ${log.titulo}<br>
-                    <small>Autor: ${log.autor} | Tema: ${log.tema}</small>
-                </div>
-            `).reverse().join('');
+            logs.reverse().forEach((item) => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td>${item.dataRegistro} às ${item.horaRegistro}</td>
+                    <td><strong>${item.autor}</strong></td>
+                    <td>${item.titulo}</td>
+                    <td><button class="btn-download" onclick="baixarPDFdoLog(${item.id})">Baixar PDF</button></td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        // GERA O PDF APENAS QUANDO CLICADO NO LOG
+        function baixarPDFdoLog(id) {
+            const logs = JSON.parse(localStorage.getItem('gremio_dados') || "[]");
+            const dados = logs.find(l => l.id === id);
+
+            if(!dados) return;
+
+            const doc = new jsPDF();
+            
+            // Cabeçalho do PDF
+            doc.setFillColor(26, 42, 108);
+            doc.rect(0, 0, 210, 30, 'F');
+            doc.setTextColor(255, 255, 255);
+            doc.setFontSize(18);
+            doc.text("Relatório de Ação do Grêmio Estudantil", 20, 20);
+
+            doc.setTextColor(0, 0, 0);
+            doc.setFontSize(12);
+            doc.text(`Título: ${dados.titulo}`, 20, 45);
+            doc.text(`Data da Ação: ${dados.dataAcao}`, 20, 55);
+            doc.text(`Participantes: ${dados.qtd} alunos`, 20, 65);
+            doc.text(`Proposta: ${dados.proposta}`, 20, 75);
+            doc.text(`Tema: ${dados.tema}`, 20, 85);
+            
+            doc.line(20, 90, 190, 90);
+            doc.text("Descrição:", 20, 100);
+            const descLines = doc.splitTextToSize(dados.descricao, 170);
+            doc.text(descLines, 20, 110);
+
+            doc.setFontSize(10);
+            doc.setTextColor(100);
+            doc.text(`Registrado por: ${dados.autor} em ${dados.dataRegistro} às ${dados.horaRegistro}`, 20, 280);
+
+            doc.save(`Acao_${dados.titulo.replace(/\s+/g, '_')}.pdf`);
         }
 
         function voltarDash() {
