@@ -6,111 +6,47 @@
     <title>Sistema Grêmio Estudantil - SED</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <style>
-        /* PALETA DE CORES SED */
         :root { 
-            --sed-primary: #00a896; /* Verde SED */
-            --sed-secondary: #0077b6; /* Azul SED */
+            --sed-primary: #00a896; 
+            --sed-secondary: #0077b6; 
             --sed-dark: #1d2d35;
             --sed-bg: #f0f4f7;
         }
         
-        body { 
-            font-family: 'Segoe UI', Arial, sans-serif; 
-            background-color: var(--sed-bg); 
-            margin: 0; 
-            padding: 20px; 
-        }
+        body { font-family: 'Segoe UI', Arial, sans-serif; background-color: var(--sed-bg); margin: 0; padding: 20px; }
         
         .container { 
-            background: #ffffff; 
-            padding: 30px; 
-            border-radius: 8px; 
-            box-shadow: 0 5px 20px rgba(0,0,0,0.1); 
-            width: 95%; 
-            max-width: 800px; 
-            margin: auto; 
-            border-top: 6px solid var(--sed-primary);
+            background: #ffffff; padding: 30px; border-radius: 8px; 
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1); width: 95%; 
+            max-width: 800px; margin: auto; border-top: 6px solid var(--sed-primary);
         }
 
-        /* LOGOS */
         .header-logos { 
-            display: flex; 
-            justify-content: space-between; 
-            align-items: center; 
-            margin-bottom: 30px; 
-            padding-bottom: 20px;
-            border-bottom: 1px solid #eee;
+            display: flex; justify-content: center; align-items: center; 
+            margin-bottom: 30px; padding-bottom: 20px; border-bottom: 1px solid #eee;
         }
-        .header-logos img { 
-            max-height: 100px; 
-            max-width: 150px;
-            object-fit: contain; 
-        }
+        .header-logos img { max-height: 120px; max-width: 200px; object-fit: contain; }
         
-        h2 { 
-            text-align: center; 
-            color: var(--sed-dark); 
-            font-weight: 600;
-            margin-top: 0;
-        }
-
+        h2 { text-align: center; color: var(--sed-dark); font-weight: 600; margin-top: 0; }
         .form-group { margin-bottom: 15px; }
         label { display: block; margin-bottom: 5px; font-weight: bold; color: #444; }
-        
-        input, select, textarea { 
-            width: 100%; 
-            padding: 12px; 
-            border: 1px solid #ced4da; 
-            border-radius: 4px; 
-            box-sizing: border-box; 
-            font-size: 15px;
-        }
-
-        button { 
-            width: 100%; 
-            padding: 14px; 
-            background-color: var(--sed-secondary); 
-            color: white; 
-            border: none; 
-            border-radius: 4px; 
-            cursor: pointer; 
-            font-weight: bold; 
-            font-size: 16px; 
-            transition: 0.2s;
-        }
+        input, select, textarea { width: 100%; padding: 12px; border: 1px solid #ced4da; border-radius: 4px; box-sizing: border-box; font-size: 15px; }
+        button { width: 100%; padding: 14px; background-color: var(--sed-secondary); color: white; border: none; border-radius: 4px; cursor: pointer; font-weight: bold; font-size: 16px; transition: 0.2s; }
         button:hover { background-color: #005f91; }
-
         .btn-save { background-color: var(--sed-primary); }
-        .btn-save:hover { background-color: #008f80; }
-
-        .btn-log { background: #6c757d; margin-top: 20px; border-radius: 4px; }
-        .btn-danger { background: #dc3545; width: auto; padding: 8px 15px; }
-
+        .btn-log { background: #6c757d; margin-top: 20px; }
         .hidden { display: none; }
-
-        /* TABELA DE LOGS */
         .table-container { overflow-x: auto; margin-top: 20px; }
         table { width: 100%; border-collapse: collapse; }
-        th { background: #f8f9fa; padding: 12px; text-align: left; border-bottom: 2px solid #dee2e6; color: #495057; }
+        th { background: #f8f9fa; padding: 12px; text-align: left; border-bottom: 2px solid #dee2e6; }
         td { padding: 12px; border-bottom: 1px solid #eee; font-size: 14px; }
-
-        .badge-download {
-            background-color: var(--sed-primary);
-            color: white;
-            padding: 6px 12px;
-            text-decoration: none;
-            border-radius: 4px;
-            font-size: 12px;
-            cursor: pointer;
-            border: none;
-        }
+        .badge-download { background-color: var(--sed-primary); color: white; padding: 6px 12px; border-radius: 4px; cursor: pointer; border: none; }
     </style>
 </head>
 <body>
 
     <div id="login-screen" class="container">
         <div class="header-logos">
-            <img src="data:image/jpeg;base64,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" alt="Logo Escola JTS">
             <img src="https://media-gru2-1.cdn.whatsapp.net/v/t61.24694-24/489405406_650586094569182_6793834854762065392_n.jpg?ccb=11-4&oh=01_Q5Aa3QFLI5uLR7B-Jj5LSyAQd7wxXJoZ9ceCDkzThVR0E9T4Bw&oe=69645917&_nc_sid=5e03e0&_nc_cat=102" alt="Logo Grêmio GC">
         </div>
         <h2>Acesso ao Portal Grêmio Estudantil</h2>
@@ -126,7 +62,6 @@
                 <option value="COORDENADOR RELAÇÕES SOCIAIS/CONVIVA">COORDENADOR RELAÇÕES SOCIAIS/CONVIVA</option>
                 <option value="COORDENADOR DIREITOS HUMANOS">COORDENADOR DIREITOS HUMANOS</option>
                 <option value="COORDENADOR CHEFE DE COMISSÕES">COORDENADOR CHEFE DE COMISSÕES</option>
-                <option value="admin">Administrador</option>
             </select>
         </div>
         <div class="form-group"><label>Senha</label><input type="password" id="pass" placeholder="Digite sua senha"></div>
@@ -138,8 +73,10 @@
             <span id="user-display" style="font-size: 12px; font-weight: bold;"></span> | 
             <a href="#" onclick="location.reload()" style="color: #dc3545; font-size: 12px;">Sair</a>
         </div>
-        <h2>Cadastrar Ação Estidantil</h2>
+        <h2>Cadastrar Ação Estudantil</h2>
         
+        <div class="form-group"><label>Nome de quem está realizando a ação</label><input type="text" id="nome_executor" placeholder="Digite seu nome completo"></div>
+
         <div class="form-group"><label>Título da Ação</label><input type="text" id="titulo"></div>
         
         <div style="display: flex; gap: 10px;">
@@ -166,15 +103,15 @@
     <div id="logs-screen" class="container hidden" style="max-width: 900px;">
         <h2>Histórico de Registros</h2>
         <div style="display: flex; justify-content: space-between; margin-bottom: 15px;">
-            <button onclick="voltarDash()" style="background: #343a40; width: auto; padding: 10px 20px;">Voltar</button>
-            <button class="btn-danger" onclick="limparBanco()">Limpar Histórico</button>
+            <button onclick="voltarDash()" style="background: #343a40; width: auto; padding: 10px 20px; color: white; border: none; border-radius: 4px; cursor: pointer;">Voltar</button>
+            <button style="background: #dc3545; color: white; border: none; border-radius: 4px; padding: 10px 20px; cursor: pointer;" onclick="limparBanco()">Limpar Histórico</button>
         </div>
         <div class="table-container">
             <table>
                 <thead>
                     <tr>
                         <th>Data/Hora</th>
-                        <th>Autor</th>
+                        <th>Cargo/Autor</th>
                         <th>Ação</th>
                         <th>Download</th>
                     </tr>
@@ -187,9 +124,7 @@
     <script>
         const { jsPDF } = window.jspdf;
         
-        // LISTA DE USUÁRIOS E SENHAS ATUALIZADA
         const users = { 
-            "admin": "1234", 
             "COORDENADOR FINANCEIRO": "16",
             "COORDENADOR EVENTOS": "16",
             "COORDENADOR COMUNICAÇÃO": "16",
@@ -201,28 +136,22 @@
         };
         
         let loggedUser = "";
-
-        // BANCO DE DADOS LIMPO (v5 para apagar os erros antigos)
-        const DB_NAME = 'gremio_db_v5';
+        const DB_NAME = 'gremio_db_v6';
 
         function handleLogin() {
             const u = document.getElementById('user').value;
             const p = document.getElementById('pass').value;
-            
-            if (u === "") {
-                alert("Por favor, selecione um cargo.");
-                return;
-            }
-
+            if (u === "") return alert("Selecione um cargo.");
             if (users[u] === p) {
                 loggedUser = u;
                 document.getElementById('login-screen').classList.add('hidden');
                 document.getElementById('dashboard').classList.remove('hidden');
-                document.getElementById('user-display').innerText = "Usuário: " + u;
+                document.getElementById('user-display').innerText = "Cargo: " + u;
             } else { alert("Senha inválida!"); }
         }
 
         function salvarAcao() {
+            const executor = document.getElementById('nome_executor').value;
             const titulo = document.getElementById('titulo').value;
             const dataAcao = document.getElementById('data').value;
             const qtd = document.getElementById('qtd').value;
@@ -230,11 +159,12 @@
             const tema = document.getElementById('tema').value;
             const descricao = document.getElementById('descricao').value;
 
-            if (!titulo || !dataAcao) return alert("Por favor, informe ao menos o Título e a Data!");
+            if (!executor || !titulo || !dataAcao) return alert("Preencha o Nome, Título e Data!");
 
             const registro = {
                 id: Date.now(),
-                autor: loggedUser,
+                cargo: loggedUser,
+                autor: executor,
                 dataReg: new Date().toLocaleDateString('pt-BR'),
                 horaReg: new Date().toLocaleTimeString('pt-BR'),
                 titulo, dataAcao, qtd, proposta, tema, descricao
@@ -249,7 +179,7 @@
         }
 
         function acessarLogs() {
-            const pass = prompt("Acesso Restrito. Digite a senha:");
+            const pass = prompt("Senha de acesso ao Histórico:");
             if (pass === "2016") {
                 document.getElementById('dashboard').classList.add('hidden');
                 document.getElementById('logs-screen').classList.remove('hidden');
@@ -261,22 +191,13 @@
             const tbody = document.getElementById('log-table-body');
             const logs = JSON.parse(localStorage.getItem(DB_NAME) || "[]");
             tbody.innerHTML = "";
-
-            // FILTRO PARA NÃO APARECER UNDEFINED
-            const filtrados = logs.filter(l => l && l.titulo);
-
-            if (filtrados.length === 0) {
-                tbody.innerHTML = "<tr><td colspan='4' style='text-align:center;'>Nenhum registro encontrado.</td></tr>";
-                return;
-            }
-
-            filtrados.reverse().forEach(log => {
+            logs.reverse().forEach(log => {
                 const tr = document.createElement('tr');
                 tr.innerHTML = `
                     <td>${log.dataReg} ${log.horaReg}</td>
-                    <td><strong>${log.autor}</strong></td>
+                    <td><strong>${log.cargo}</strong><br><small>${log.autor}</small></td>
                     <td>${log.titulo}</td>
-                    <td><button class="badge-download" onclick="gerarPDF(${log.id})">Baixar PDF</button></td>
+                    <td><button class="badge-download" onclick="gerarPDF(${log.id})">PDF</button></td>
                 `;
                 tbody.appendChild(tr);
             });
@@ -288,45 +209,37 @@
             if (!d) return;
 
             const doc = new jsPDF();
-            
-            // Layout do PDF
-            doc.setFillColor(0, 168, 150); // Verde SED
+            doc.setFillColor(0, 168, 150);
             doc.rect(0, 0, 210, 40, 'F');
-            
             doc.setTextColor(255, 255, 255);
-            doc.setFontSize(22);
+            doc.setFontSize(18);
             doc.text("RELATÓRIO DE AÇÃO ESTUDANTIL", 105, 25, { align: "center" });
             
             doc.setTextColor(0, 0, 0);
             doc.setFontSize(12);
             doc.setFont("helvetica", "bold");
-            doc.text(`Escola: E.E. Profº João Teixeira Sampaio`, 20, 55);
-            doc.text(`Grêmio: Geração Consciente`, 20, 62);
+            doc.text(`Grêmio Estudantil: Geração Consciente`, 20, 55);
+            doc.text(`Responsável: ${d.autor} (${d.cargo})`, 20, 65);
             
             doc.setFont("helvetica", "normal");
-            doc.text(`Título da Ação: ${d.titulo}`, 20, 75);
-            doc.text(`Data da Realização: ${d.dataAcao}`, 20, 85);
-            doc.text(`Quantidade de Participantes: ${d.qtd}`, 20, 95);
-            doc.text(`Origem da Proposta: ${d.proposta}`, 20, 105);
-            doc.text(`Tema: ${d.tema}`, 20, 115);
+            doc.text(`Título da Ação: ${d.titulo}`, 20, 80);
+            doc.text(`Data da Realização: ${d.dataAcao}`, 20, 90);
+            doc.text(`Participantes: ${d.qtd}`, 20, 100);
+            doc.text(`Origem: ${d.proposta}`, 20, 110);
+            doc.text(`Tema: ${d.tema}`, 20, 120);
             
-            doc.line(20, 120, 190, 120);
-            doc.setFont("helvetica", "bold");
-            doc.text("Descrição da Ação:", 20, 130);
-            doc.setFont("helvetica", "normal");
-            
+            doc.line(20, 125, 190, 125);
+            doc.text("Descrição:", 20, 135);
             const descLines = doc.splitTextToSize(d.descricao, 170);
-            doc.text(descLines, 20, 140);
+            doc.text(descLines, 20, 145);
 
             doc.setFontSize(10);
-            doc.setTextColor(100);
-            doc.text(`Emitido em: ${d.dataReg} às ${d.horaReg} por ${d.autor}`, 20, 285);
-            
-            doc.save(`Acao_JTS_${d.titulo}.pdf`);
+            doc.text(`Registrado em: ${d.dataReg} às ${d.horaReg}`, 20, 280);
+            doc.save(`Acao_${d.titulo}.pdf`);
         }
 
         function limparBanco() {
-            if (confirm("Isso apagará permanentemente todos os logs registrados até agora. Confirmar?")) {
+            if (confirm("Apagar todos os registros permanentemente?")) {
                 localStorage.removeItem(DB_NAME);
                 renderLogs();
             }
