@@ -3,140 +3,306 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sistema Grêmio Estudantil - JTS</title>
+    <title>Sistema Grêmio Estudantil - SED</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <style>
-        /* --- PALETA DE CORES ESTILO SED --- */
-        :root {
-            --sed-teal: #00a896;       /* Verde principal do cabeçalho */
-            --sed-blue: #2980b9;       /* Azul para botões de ação */
-            --sed-dark: #2c3e50;       /* Cor de texto escuro */
-            --sed-light-bg: #f4f7f6;   /* Fundo da página */
-            --sed-card-bg: #ffffff;    /* Fundo dos cartões */
-            --sed-danger: #e74c3c;     /* Vermelho para ações de risco */
+        /* PALETA DE CORES SED */
+        :root { 
+            --sed-primary: #00a896; /* Verde SED */
+            --sed-secondary: #0077b6; /* Azul SED */
+            --sed-dark: #1d2d35;
+            --sed-bg: #f0f4f7;
+        }
+        
+        body { 
+            font-family: 'Segoe UI', Arial, sans-serif; 
+            background-color: var(--sed-bg); 
+            margin: 0; 
+            padding: 20px; 
+        }
+        
+        .container { 
+            background: #ffffff; 
+            padding: 30px; 
+            border-radius: 8px; 
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1); 
+            width: 95%; 
+            max-width: 800px; 
+            margin: auto; 
+            border-top: 6px solid var(--sed-primary);
         }
 
-        body {
-            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-            background-color: var(--sed-light-bg);
-            margin: 0;
-            padding: 20px;
-            color: var(--sed-dark);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 90vh;
+        /* LOGOS */
+        .header-logos { 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            margin-bottom: 30px; 
+            padding-bottom: 20px;
+            border-bottom: 1px solid #eee;
         }
-
-        /* Container Principal estilo Cartão */
-        .main-card {
-            background: var(--sed-card-bg);
-            padding: 30px;
-            border-radius: 12px;
-            box-shadow: 0 8px 24px rgba(0,0,0,0.08);
-            width: 100%;
-            max-width: 850px;
-            border-top: 6px solid var(--sed-teal); /* Detalhe superior estilo SED */
+        .header-logos img { 
+            max-height: 100px; 
+            max-width: 150px;
+            object-fit: contain; 
         }
-
-        /* Cabeçalho com Logos */
-        .header-logos {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 25px;
-            padding-bottom: 15px;
-            border-bottom: 2px solid #eee;
-        }
-
-        .header-logos img {
-            height: 90px; /* Tamanho padronizado para as logos */
-            width: auto;
-            object-fit: contain;
-        }
-
-        h2 {
-            text-align: center;
-            color: var(--sed-teal);
+        
+        h2 { 
+            text-align: center; 
+            color: var(--sed-dark); 
             font-weight: 600;
-            margin: 0 0 25px 0;
+            margin-top: 0;
         }
 
-        /* Formulários */
-        .form-group { margin-bottom: 18px; }
-        label { display: block; margin-bottom: 6px; font-weight: 600; color: var(--sed-dark); font-size: 0.95rem; }
+        .form-group { margin-bottom: 15px; }
+        label { display: block; margin-bottom: 5px; font-weight: bold; color: #444; }
         
-        input, select, textarea {
-            width: 100%;
-            padding: 12px;
-            border: 1px solid #bdc3c7;
-            border-radius: 6px;
-            box-sizing: border-box;
-            font-size: 1rem;
-            transition: border-color 0.3s;
-        }
-        input:focus, select:focus, textarea:focus {
-            outline: none;
-            border-color: var(--sed-teal);
+        input, select, textarea { 
+            width: 100%; 
+            padding: 12px; 
+            border: 1px solid #ced4da; 
+            border-radius: 4px; 
+            box-sizing: border-box; 
+            font-size: 15px;
         }
 
-        /* Botões */
-        button {
-            width: 100%;
-            padding: 14px;
-            border: none;
-            border-radius: 6px;
-            font-size: 1rem;
-            font-weight: bold;
-            cursor: pointer;
-            transition: background-color 0.2s, transform 0.1s;
+        button { 
+            width: 100%; 
+            padding: 14px; 
+            background-color: var(--sed-secondary); 
+            color: white; 
+            border: none; 
+            border-radius: 4px; 
+            cursor: pointer; 
+            font-weight: bold; 
+            font-size: 16px; 
+            transition: 0.2s;
         }
-        button:active { transform: scale(0.99); }
+        button:hover { background-color: #005f91; }
 
-        .btn-primary { background-color: var(--sed-teal); color: white; }
-        .btn-primary:hover { background-color: #008f80; }
+        .btn-save { background-color: var(--sed-primary); }
+        .btn-save:hover { background-color: #008f80; }
 
-        .btn-secondary { background-color: var(--sed-blue); color: white; margin-top: 15px; }
-        .btn-secondary:hover { background-color: #2471a3; }
-        
-        .btn-danger { background-color: var(--sed-danger); color: white; width: auto; padding: 10px 20px; font-size: 0.9rem;}
-        .btn-danger:hover { background-color: #c0392b; }
+        .btn-log { background: #6c757d; margin-top: 20px; border-radius: 4px; }
+        .btn-danger { background: #dc3545; width: auto; padding: 8px 15px; }
 
-        .btn-outline { background-color: transparent; border: 2px solid var(--sed-dark); color: var(--sed-dark); width: auto; padding: 10px 20px;}
-        .btn-outline:hover { background-color: var(--sed-dark); color: white; }
+        .hidden { display: none; }
 
-        /* Utilitários */
-        .hidden { display: none !important; }
-        .flex-row { display: flex; gap: 15px; }
-        .flex-grow { flex: 1; }
-        .top-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; font-size: 0.9rem;}
-        .user-info { font-weight: bold; color: var(--sed-blue); }
+        /* TABELA DE LOGS */
+        .table-container { overflow-x: auto; margin-top: 20px; }
+        table { width: 100%; border-collapse: collapse; }
+        th { background: #f8f9fa; padding: 12px; text-align: left; border-bottom: 2px solid #dee2e6; color: #495057; }
+        td { padding: 12px; border-bottom: 1px solid #eee; font-size: 14px; }
 
-        /* Tabela de Logs */
-        .table-responsive { overflow-x: auto; }
-        table { width: 100%; border-collapse: collapse; margin-top: 10px; }
-        th { text-align: left; padding: 15px; background-color: #ecf0f1; color: var(--sed-dark); border-bottom: 2px solid #bdc3c7; }
-        td { padding: 15px; border-bottom: 1px solid #eee; vertical-align: middle; }
-        tr:hover { background-color: #f8f9fa; }
-        
         .badge-download {
-            display: inline-block;
-            padding: 8px 16px;
-            background-color: var(--sed-teal);
+            background-color: var(--sed-primary);
             color: white;
-            border-radius: 20px;
+            padding: 6px 12px;
             text-decoration: none;
-            font-size: 0.85rem;
-            font-weight: bold;
-            border: none;
+            border-radius: 4px;
+            font-size: 12px;
             cursor: pointer;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            border: none;
         }
-        .badge-download:hover { background-color: #008f80; box-shadow: 0 4px 8px rgba(0,0,0,0.15); }
     </style>
 </head>
 <body>
 
-    <div id="login-screen" class="main-card">
-        <div class="header-logos" style="justify-content: center; gap: 30px;">
-            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAADICAMAAACahl6sAAAAz1BMVEX///8AXL8AXb8AWr8AWb9xncUAWb0AWL8AYb8AXr8AV78AYL8AWL0AXL0AUb8AVr8AVb8AU78AUL8AW78AWb8AUL0AUr8AVb0AVr0AUb0AU70AXb3Y4O+Tsb0AVr22xt6Nrb3H2OAAWb4AXcDa4u8AVr8AYcAAYr4AXsAAX8MAYr8AYb0AYcAAZL8AZL0AXr0AWbwAYL3w9fvo7fD3+vyDq78AXL4AXsAAY8EAYb/J2eD8/f7R3OG8yt65zN8xbr6/zd+EscAAXb7E1d+ywt2l47HFAAAa9UlEQVR4nO1dCXubOLau0mxNsiXbsk03cdz3tqS1k85knXTSJjP5/3/fIwnYmBgsCCT09b0/87yWEMSHI4eDB7H42a9/+9vf/v73f//3f/9f//d/H//7f/979+OPP/4///lP48F33z36/vF3j0e//vooQf/49dG77x49+Pjjj+Hj7/8Q/viH8Pjjj6Hn4f//4eE3j96+e8Tx9oefHo9+efTT44+74fH37969e/zmEcfbN7/88uGHdx/ffP/D4x3x6O3bXz788M13v/z0+P3b73+Ic4c/fvPDj3fA46df7hO/f/jhm2/ffHzz9vH7333//33//S8/ffj+zYd3j3fF45dffnn78Pbb92/e//7x9w8/vPvhh+9+uSMev/3y9t37X959/K1v3n/34Xfv7oq37949/Pbh978VHr//8e2b97//+MOPP94Vv3/8/u2bb94/fP874PHL998+vP+d7z9+fO/A8f33D28ffvud5/HD9+8+vP+98Pju+4e3P3z//Z+Dx9vvHj7eB4/vv3/z+I8+gPjjzXc/3gOPP96+efzHHkZ88+H7h58e/3H3P/6+d3fE46dffrr3Hj/98suDd++Kx7sIjkdvn/z06N3bB+9/58Hx428Dju9/+O7Ro3fvHrz/9h2H4/FfF44Hf104Hv914Xi89x5vf+vB8e7dOw4cj/jXhOOx46+M46/H8eivHcdj46+Px38dOB7/deF47LgTHs8Gjkf/+sDx2HHXPP71uCse//3Hn+6Mx2PfX8+6/dCj7x49ePDgwb+WJqPZ7Hw2o7+zM3k5P+8nJ2+r8Xgy2W0eTy6m5+fTeW/p9Xo9Xl5cXMz6/em8059OxpMX6vF4OuxPq8Z5V24cT5b0wWjW681mF12o43g8uThn0KqP56+N48m0N51fXEzpBq8eLybT147jaTrtLWhvTq8UjePLqev2enr60nE8G1cbtvC61+u+cBzP+n3q+aK/Jc8ve/K31bEa/Q1a9PGLXv/14XjaK3D7Wc8n3Xg665/R4pzeP176nN+qY11vN671u+e12/gScTx9YThobxYk3Xg2PZc373V1z+t2e9o+T6vH+WwQ/G1B+tXjae/U8U5g3I2n035vG1jYqK83j6eL3uLqQnF+qZ6f1/F+g3Mv693j5eR0sX2/pX/47o6l3/g13u91tU0cT6c9WnI+OaH9Pj/v+4+Lfn/7Wc/Pr+XJ7HwQ45wujseT8/62hbfj2d92z+P+7r3T38bN/537iT/z9+F3D8e93uXk4uJ89toW9h376R3e/vL9D+9+uFMc097t5Ggq/b8z11P9o85x6J1e1k68N8Xj6TngyF/7fG0c0wZ01C6u5r41XwGO/oXh8bY6pu066t/H/Z5U43j22hZudq7+1Y1zI3h8/+7jmx+O0u/z3sJdY/3V8HjvHKc9d4n1m8Hjm+9//PGY4LjrX9e+3+0fPj1O23f3e2+3e67x2P/N9nLw+P77t2/e9e72fLd7ruu91726K8c91fT92z/89Pj4J/7p7Pz1Lezv4rjv/k+Hj0/9M+1i7fHw+98Vjx++//7hrn9m7222vY73NnG8ffL3gP6Z+VvT8/o79f894t+8f//jD78dPMbL6z3j399+P0Z8/9uHn96/18V9L9t3275/98Pje7fP1x79f3Xj+O6Hh9/d6579+1++639141g33XW/+2Y8V+93j799970Lxz+c+f79r/c4n6N4PH57v2a5//bX2635jnu8u6d73X9389/7d0c7vNfv/4r7XQePR//iVvc98Hjv9vla8Pj/38E74vHu+9+Z1+O/7v0e777//Y+D2933wePD7/9A4Hj37cPXgePd418XjsdvB7a7r3G/D37lZ8Hj7ff3N+P91Y3jsT2u/36N+33w8e8/6I/H+9Z//+p+x4P77tH9970Hx+M/D2y3XweOPw5s933weP8z393XGcfj/wJ377vH9/fA44+D9z3656d374DHu/u2v9953H+7D/11+91d83gM3P1/g6+/83j8r/tM0GfA41/vuMd9t7m/3z2+/93B4711+39lHLzXF4B3j98Oft/je/W726M/e7e7e/TjXwWPO5b06Ffv9v+1H7776d2d8fjw3+98v7v3Hn9+9/5H//b7g8f7X73X2b82Hr/97n7/7tE78ffu8e7bb9+/v+de9+eDd7/f7e1P78HhHre/ef+3g+2uf3/Lfd99/O199Xjs9p9876/d77395eMHnPfP723c/nzwfr8TffvD4x/g8f5X3e/d97/7j7P87sHj8bsHn3jPfd9/992/38P0D36/H/3+L1/9fjf83X/42v1u/+7B/X738Ld3nfe7R79//Fv0/fufHo8H1e939/7+l3fd7939D7979P5H0N3v3v34wztA//v3739/5/v93e/399zrg+s/93v03W85n/u++91Xv98tHveb4f+8+90v3/3Hl9/v3t+x3y/63V/d7/a7B9+/+9Gv3u+8+/3wO+Dx9tG7L7/fff8P73H3+/6H3/z7r+733bvf+f3u8f1P/9N/fP/d/a7/fvdo++C3P/5O9D995/vdA7+/H6Z/9X7n4/733/4w288f/a7f3v34+7vf74Z33e+e3H9/3/1+f++73e8fv3//Xve7e3d7f79791/tfo+/fXz33btH39273/Xf/+r9zrvf7w4O//7+1/u33+n9zvvdox/u3+/2b58c8H735MH3uyH3+s+H39653+2H3z4Z7Pd7+/H3P/z06Hfvfof2+y+77/c49H734PvfA/n97v27H93vd4++f3i/+/3w++G73z1+v5d+P/jw/i/8/k70vQe93717/27Hft/96n53373+fvez298fvu5+f8/73T363fv73X1+v9uH3u/e/u7d9/f1+93e7/eO3++893v3g+9/X7/fffiA+93D+90337z/5Xf1+933Pz454P2ud7+v1e93v757v3u4+343eL8Lvt+9232/u3//u/f3u/d/73f+/e5B/34X3e9G/X7v3v2+t989/M7v72c/fnd/v3t/j73u3X+lfr97/37n+30f+93j398f+f1uf/c+/n4v3O++e3y/+9653329fr97f//93fef237Pfd8/3O/u933vdz8/u39/P/v97sFv3r//5d2Hdx78fve7B+/vJ7u//7j7/m7Hfgd+/+7+/sO797+57/fdz3//+Kvf33e/3x38fvfu/f3t4Iff72W/H6x3v4f2+72/uP/efX9fe79z3+933X949/f/f7/nXu8+/t59v/vu3YcPr3S/+5L7fQ/7/Yc/u/e79e93/5Xud/fv76v1u33Q3+/+/vff79b3993vd178fveD+/1u9/3dg/u99/t9f7+7r9/vHr/b/d4H/fvdx/f33e9375+69/f19zv3/b62f78L3O959/vdn+X3u2+//uXjX933dw++/33v/m7H/X5f+36v1v3e/u923+/3v9+99/u9f/i98/t9d//9fef93u/e793v5d/v/svu+537/t7Pfo/5/X7f+/1u/f3e/v1d/X53/X4Xvt85+v2+9n733r3fb3+/93W/37nf33fv90Pvd/f1+32w3+8e9O/3q9/ffT/34P3d8H6/514973ef3O/v5d/vd/d7/f0u+X7v3X3P/X7v6/d39/d7B57d79Y9e3//7d37+y/ud//9fnf9/R38fved39+Hfr8LfH/39c8e/C6933Pff/39XvZ+z/vd/fv77v3Orfud9/e7q/U7x+93j75z3++7398Xvt/53+8Gv9+59zvvfje431/7fndd93sHrt/v1s9u8H7nfq9793537e93X/t+F7jfd+/3HnS/+2/v9z+57/e13++/0n6/u1u/+wXvd8/290d+/477vc/7/Z57v/P+fnffvt/33u9Hfr93D7/34P3u4O93X/d+z/3+3uf9vn/fv7933O8evL939/vdwfc7/37f3u/+K++933N/92D9/Z77fv/u63W/++H93eN/4ve7X93ve4/9vvfd74fu76Pfrdfvff3/93X/97v17/e9+52Xfr9ffb/v3u979/3uwc/u/S663wfe38/ud995f797f/d2/b/7r3u/r93vu/u99f393fv9t/e/X/u93//97v39j9978P3de/d77vvdvfc7Xv79Dng//H5fu99D73ff2f89+P398fu98H73c/f+vs77/cHud5/sfr/3u/f3e+f9frf3/T5w3+/397v7+90P7/6z/97v9879vge/360Xf9877vdD399r9/vW//u+9/3uefW7n/X+7tX9fqf7/d277+/W1+/3v/f3ve93/P7uu2+/9+D9vv3+bhe+/0Pvd1d+v1t//6X9fq/z/j70/c6D9zv/9/vQ++99/O4797uDe34XfH8XeH9Xf38P/H4v/f7uQff74fvv79/c749+Z77f137//077nXt/D7zfg9/vQ/e7a/f79/3/u4fvdx/c97vn3e8r93eP/b7X9/3u/X7v6/f3ve/3j/633+/c/7sH398D73e/+j/u9u/33fc7wff73ff/lff++53n/Z73++7+/72/+7sHXr8b/M987/3t/X7PvX7X/d+797uXfr976Pvdj96/3/v93l/f70Lvd98/v79bL+737v1+H/z73Xc/f3evP8/7vV9/vwcPf3v9/73v7/fe76/c91P3+9bv90P398P2d8/97kfe7/ve3311vx/8+/u99/eHfr/73n+/e/B+v/v5u/f3vfv9/u5+/33g+/1u/X7f8/1939/d9/fd/V26v+/ud4/d9zvQ+x1+/+f7fXe93717vxu6/96H3u8+/m73/Q68v9879zs3/H4f+H5fu9+v9f97B9/fwXfv3+9e3/f3ev2/e7j9vfN9X/V97/3+aPv9rv/9Dne/u7f1/3fvv33P/c6D93c//fH72r/vfe93/u/3vfvdfb/X99+D9/fd+7v1/f3d73+X3+8D3+93L/9+t16f+H3e77f8fue4v9919ztn39+F93v7e+52/2X3+73v//3d+z34/r73fl/9/t4Hvt9L9zvX/9/33t/71Pe97/f3Q9/3te/3e3//9/37nbd+vw9+f+e+vwe/3x96v3vv++99/u9369/3dff7vf/9ffX97kP3u+c/+1n398D7++D3O+H9/vD97qH7neN+9739vQfv9z3/97uH+989eX+/u/5+r93vu/vfr3u/897vv/v73Yt/v9P9fne938F/985/f0+9/98F9/c97++c93v7+977vXW/X/t+7x9+F3i/v//1l/t+N/h9r9b9zn3f7471/3v9/a4L7u/83u8H3u9r//8+cH/f/f6+t989dD8P9b8f3v/2L++9v8e/34H7e9D9/fB+39f/f9/3fhf9Pvd97+j/97X7Hdz+fqfe7z3s9zvP73cPvr/vfd+X/b/v993ve+59X/t+39ff77j7/cD7+871H/L/vv+zf797v7+D+77X7/79t5/c93vv73vvd5/3972v/78Pfr/7/X4feH93t34fuL/vfd9X7/dr73ff//67L/V/L/797lHvdwf/Pff8933d+/vA+11//7/g9/3Q/f2R/3eP3t/7e+331aPvP7jX9/L7vb+/r93vgd/3u/u75/8evd+Dfr8D7+/B73eP/43f79b1n9t9v69939e8vw9+v7c/d9/3t9/v+7v+99b7e+B+P/T7vf/5e9/vwO+v/H3v7//94f3d+71f+/1+uP/f63P/aPd77vvd47+69/uD3+9H+/2u77+Xf7+Df/fr3r/dF3e/73v/7tH7Pfc3199zz/+7D9/vO9/vu5/r9/uA/3f9/a55v9t77v199ft9z/f91vf3vfv9Xv3/vfX7Xf397nE9v3vv774Ofe+93x+630ff/+be30Pv9/W/vw+6/959/+97/7/fu9/f38ff7+7PveH3/ff+3++97/f3991P//N/6n+/99zvD77/e1+/3zvX9+D97hH3993v9/7f79a97/2/33m+/18B9zvE+x33/n6H+/sd+L/vB76/H3r//3t///3R/7sPvt9b/++X9ft9X38/9/29d797/O8+6f1O9P3X/7+39/vB7++3H7rfdw/f995+71v3e91/92H9Xp/vQd9//f839H5fu78f/H4H6vfA7/eh+937/e/7vP8e9v3W/f+u93u9/n9//X+H+/634vc9/v7e9/d9H/u+/34Hvr+v3e97//fdf9+7/r9/3n2/9/XfB/x+X3u/33m/C35/D9yP9XF46P7ud98/8P7e937fe/v93vv/fdL7Hfj/3n1/71e/3w9+vwvudwfu+6rve9//+/r3/f29v79/fL8ffL+L7vdH9/3d898Pvd/d/X4fun5/L/t9X72/77vf69P+Pvd+7+/3g+97b/99c7/fPe/X3m9e++H7Pe53D/j/3q3v+3v1/+8Hfr/7+/3+7vc79X4f/H4Hf39f+/s999//u37/v0vv99bf93u/v/L7fd/73d33/d77vcH+v+v+H3a/u7f/973/7/X/f6/9vj+4/7v3/73d93v3+533973n97vv1v1+1+97c7/X99+B9zu3fn9fu98PvN8f7H7nX9zvB77v67/fe3/v09/31vf7vvt9733fB9zf7d/vj/b9vvW7ffD3fe37fY/3vfv/Xe/3vu/v795+3/f+39f+/r70fndd/++D3++E3/fh/j/8fvd97/t63e/96/333ff7vX/7X9zf/dr/d8H3+9D7veD+HnZ/D36/v493r+91/b733u8ffL/r/v899/v+4H7/6P/9fej9/f26+1f/d+/+/717f1//+73wfo9/39d+31t/78X/u+B+z4P++31P9/vg/d7X/9/d3e8H3+/r7/fW7/tH9/ve93/3gO/7fX/vA/d33X/fB3e/F3y/B7/fX9zvQe/vvu933+97c7+vfn+/9fv+6H73oPf7vvd9P/b7/rD+573fL7rfj3e/73X9v9fe7z9xv3vr73ev93vg/Z6/eM+93wXu9937/V7/v/ve97uH/r8f3H9/B+53n9zfD97v3vv/XfV9v+d9X//7Hfe+r73fd//vD1z/7/b/fe+9v6/d79277/vQ+10P3+99/e/v1v1+7+v/ff/9fnP9/56734P1/+3/3eN33u+B9/fd+z3e/737fu9f/P/7Yfe79/+/d7/vD73fd//vD7vf/5m73/X7nfd+51/6/X33+73773/N7/e73fcd+f2++30H3u9H33+D/b6ve3/X/35X/T/P768O9q3v+/r7u9d+H/i+/1z2+33v93vv74e+v6/e79z/u3X9/36c+77n3/e7X/u/r97fD73/53v/+w+4/1+5/2/fX1eH3X+u7/f/e+/33v793u3/u1f/f/fW+/3W/P5+4Pu+3/t+79/3X/0/H3X/+737veB7P9P93v37P/B+D7jfu/V/52t/3/W/F/2+737fH3v/34Pf9yvu90ev/9/3/b7nfd878Pv++H7fP3q/67/fh/2/33u/v49/v1t//3v2ff/tX1eH3v971//3Xf3v97b7u+5+/+P3e++93w+/33P/70XvdwP6f98ffb/vvb977/2u/f3g7/u6/f1v/7k69H5/xPv7+/7f677fvfP+fuh7P/T97tX/+4fe952+39/+8tU/++33fX/3Pff7gfe77/49930//n4XvO/ru/8373fdf99793vQ/3e/7/u6+723v//Nfd/3/L/vvf3eg7u//+3D1879Hv77fe/+v+9633vv/R52v4c99732fe+9/R/n/r74/151v6+935v7vve937ve997+fvew3/fH/7+ve78LfN+Xv/bA/98L3e+P/d8Pvd8/3n++7/t9/+j/fe39vvr9vnq/97v/551+33vv73tfd97vh/6/r97fu/r/Puj//7v3f73v/955v6/s93u3f78H9/u69/3t+v9X/7+Pfr8fuv9+4H7vQ++/q//31u93wf3d/34/eL+ve39/7P7uXN8Hvt8F3+/a7/eh3/fW3+899/u6/7c//J/t995P3d+59/2d63vf//u7B99/ve/3nvv7O+99v/f/fs17P+h9v2r/vwu87/vv/+2/r4643++//u27+/3Q+/sh/28Ld3/3gff33v197/d7u+93gff3vff34v3dY79/5O/fQff/Hvd/P/j+3gN936/d7z3g/u57v++7/r/73t8F7neB+331fn9f+/7+uPvd273/Pff+ftj9/Xv/7x91v+9v9/7+QPe96n4P9X2/c/+3X9zvA9739f/vA3+/v+v3/Vbvdw++7/P+30f+/1/d74/u/z1y3/d77/de3/ee//dD7+/D+/3e9/v3/d97qfe9792/+67/d/P7/R77/333/e+9/d6r7++99f7uue/7B9/v77z/D9z/A+/3gO/33ve9732/632/f/f3/Z3v+1X9/26/33e/v7v297v6/y667wd/v7te/71bv98D3/dd+/te3+8P3P/d7/tH7+9/f/d93/H/Xvd9D95/fe/7/qD7vfR/v2/+33/1//731aH/+4Hv+9b7++rv991/v8+87wff70vu79b9fvd/9N7fF7+///K3u879veD7fX3//ZD7/d7X/3vX+/vQ93vB/b7A/z3r/r/3fL/72e/37t/3Q+/vnfe75/1+6Ps+d3939f/d/fv+2v975P/9nvv/Hvz9vu5+z73/O33992H99/v/Z3/vve7vXfe77/u+b93v+7v/97bvd4//88/e/3vf3w//fW99vw/d3w/9fx/9/e5c36+9/qve9w/c/3vv997/9+57vwe/3x/7vr+Pfd/Xvt+7/77f9X6//f6+d/8f8vs7936/d39f//u+d/93bve97/t++ff74/937/u+b93vPvd/73O/+9h739f7Pvi3v9/7/X7w+3/f+13z/l/9ff9b3+8fvb+v/f7++P/d+/191f3d//0+vN995/39Qf8f//XqMHD/7/u897v33+9H7u+t7/fW93vd/f2u/t/f3O8H7+9D7/fA9z2473vf3/v3v+6+v3uv74t93w+8vy/+f6+8/5v3/y7c3wXf/7vv/55z3/f37u/C+/vh7/v71/f7Q++/d/d73/t96Pu+135/v/R+X/+7veP+fnf+f69934Pv91H/7/X99773d9d9v0Pe99X/+8H7fdf3+73v976/7/v+fw8+v9+F3//6r6urv/3N/f/A+/2R+/u9+7u1e79/4v39d/c/P3a+76rve/X/3vu/v/f3+9793a17/3s9/98D7u+3/L/vf79/e39f+/3e+/3e8/196Pud/3c99n0/vN/f1+7vHnK/F/2/v5e/3+8b3/e9v+8c3/cd/+979/vjP/f+777797vf+37v9b8/1P9u9f6+6/4e/v/e/v3ecN//3q9773et9z3X+/6333519TjM/X7o+73w++7d/2/r+753/28+7x+9/99X/7997ve37u/c/3vv+z/0/v549/e9/veP/f9P3fcD7++/df/3Pvd9u9/7fP9/7Ps+fL9b3/f3vP/33/f3ge97wft+r/0+5/v9vut7/s71Pe/9XnC/r/q+r3/fN+/vvfV9L3i/7/v+Xnv//Yff7+r3+wP3u8D7fe/9fe99v/O873t9/31ff78Pu9+v9b+v3t8P3t898H2f+3/fd78fdj+HvP/b7vfW+7v/9/8+9H/f3b3vN+//vvv7fW79fu/d35e/3++O9/uQ933l/W973++f7u+v9f/e833f835/v9995P0+8H2v//9fe78f8v5u/X6/7P0u+H2vfX/33Pud+/+9B33fd3/vP/b+7ru/v+/6/t5z/2+99/c97/eB/+/W/b8r7vf3fN973u8Hv999/f9++P1uXd+13e/69736f1/9vlf933vv74f9v3P/7wfe/70f9v+99/vef78/8P/ufN/r/n8f/75vvf/vD61/f3+l973v/r+7vvd91/9+9P2+5X7f+/u/7/2+8/++436/7b5f/X6f+X6f837fd3+fdf+73v1+7H/vV74P97/vfD+v9f1d7/fA9733/X1X/3vB9733e1+v3/vd3+/X/j937/fd9/ed5/3e833v3P/7vvt+37t/77nfB/2/+97f94/e74/u77X/7+3v+8D9Pez+3lff963v/3vv733f7wLv73ve/4O63w+8v+v+/4L7e2d9b93/vfd7b//7gff9/n0/1f9ecL/3d/1+332/H3g//P7e/7t//97zfu95f9/7f7+7fr/X9//A+7/N9zvH973A993X/w933+8d//d3vP9b/d/vf38/9L7vvf/f6/6P/v197/te8/7+2P3d+/+99vte13f/93vv9+t935c/74P1//2x97/6v9894f19yP3dfN8XfL9vfr/rfb8PvP+vff93ve/77/u13/c9/+/W9/3d399X/79X/t97/+/99/fW/b1zv/fe/73v+3vP/7v/fl/7/37P+733fX+ofnff93+t97263w/c99Xvd6H/f//3u4ff9wPf9/u//H195H3/eL/vV7r/65X9v1/1vj/0vj/2fc/7fX//6P++4/6Pq933991/9z2/3919f/fQ/b1z3++b93vf9/3A/T3ofc/1vt///h473+v7/r7u+x503/v39yHv717/7733fd37/l73/c/c33vv9633f7v+3x/Z/2/f8H7n1vdF/n/3/++D7vfe9z3o/r+vvt9X3+/H7u/H7u9F73dvf9/Ffr9D3+9D9/eD73f/9b/f+34X3d/v+f++c78Pv99Fv9/Fv9+v/u+77u923/eB3++/ff83D93fB7+/8/73g/e7+/7ufvf/t/2/c/d9L3i/b3p/P+h9/+1P9vte7/t+6f194P++9v0ueX+v5/3d9d/7gfc91/s9+H3P3f+74P19X/e9X++H1vdL7u8H39/77u+fuf/3g/f3kO539f/u2t/7kPu77v3Oud8PuN8P7++77/963+/r73d3399X/v/e/f4X/98H73fd9/2h/u+b97/f91Xf+5r7/uD3u7q/33O/39/3vt/7+t8P97/vB973vv/3kO/7/t/vfe/3vvt+3/1+3/u/b/7/ff9/35v7/773ff+9D/x+3/u+33j/34r73fP+97r3u4D9fuD/vsj7PnjfH9zvnv7vA+53gvv9vvv7oO/7B/e/H3q/H3y/7/l/B3y/3719X3q/7z+43/X+93ru+3uP+3uX/T3s/j74/n/I/b33fu+b9/c973fP+/uP7/2+7/29r/+/C/zvXb7f/1//r93vc/f74v/vB++H575fu//vA97va/f/7vt9r97fO//vXfT/vnf/v9e+/4Pf70vv+1v1/j7w/u6H90v39/ve74X9vw+6v3P9/95X3/f73vcPvb97v9/rfT+Qfr9b9/8e+H2v+/8/9L6v1u9+3H1f+X2/f/T9/tr/99Xv9733/9X/vde+/3sP2t8Peb8feX8XfN/vvd+D3+8H7u9D97v2+x3u+/7g/T34/c7/fd8Pv78Lvt+7/u85/t9//9P9vu99H3z/W6/9vf7/fd9/94Pv94fu97H7PeD7ve/+3j3v98P9/1X3d/3vd4/9fR98//d63/eD93tHfd8ffN+77/tX/n73oPt+9+/vXv7+7ne/B9z/e2/3+9X/e/f8ffD3/df7u+X7PvB+/+h+d7jfu/v3e/X/ff/3ve93g+977r9/x/3+0Pd/j/d90O974Pv9gft99//vdff/3n+/H/g/X/2+F37fW+/vh77fd7/vwf3vgfd94fe7q/97X/v7oN937veL3ne979+7/70Hvr/v3X/v3e+f3e/W/d579+8F7vcD7+8/3v3+3t7f935/793fdf99F3rfB/6/P9B9P3j/v3v7X1e7r/8Peb/v3d9X3u937v/9I//vgfe7B+/vue937ff3g/v7nff7u7d//z3+fje47/f9//vj3+8C+7t33t/veb8vfb8L/j8ffT8Hvb9z9/fe/n1f8X2/739f7fXv79Vv//1B7/fC73tff7/z9t9z/O97z//9sP0d+P3e37/v7d9X//f31v3d9n7v/j/0+533fr93f+d+vwd+/2f93+/f/L7X/n/f/X6/f7jfe+9/73X3+x/vd+v+/g/e79z/u0f9vs/6/d573++77+/99/+9f7/z/P/veH+/93Xf1/2/732/D72/P3r/34H3+8H/d+/9vuv/P/B+r/r/vfc+r/6/X6+/31vf99b9fQ+43+u+/9cO69/vq7/fB77fd//fd/ff912/7+vv72/1v98L7vcj9/e97/u+7/vB/vcH9/1++P3deff7oPf74Pud/7+vc/d91ft+X/t+z3l//8Tvd/XfP+C9F6f7vu/3/v6X3t/1/feg7u923+/D3e/d/f9e5+/vf9D/fVf/766+71v3d+/+/aH3d271ve6/73c/+/29r7/fgd/vzvvfe/e7wf7/N/6+D77/O9/3vX2/977fu//vq/d76/t76O/73vu9zvs/8H1f8n53o/v/9973/bH3977ve9H39773e+/+vef+7n3vd/7v//3x93vf/7u79X6v8/s9+H7f9/6/B76/77i/C36/v//973u/d9z/fUff963vd8v3fdf//m79+533/b16f/f6/m74/e4r73fP/X7v7b/v+t/vf/f/7iF9f+8Pvd8F9/de+/1d9d8H/b/b+34vuN+P3d/1/77W+/5/yPu7f3+/F933vfd9P/h+H/j7fe/+36vv/32P++9H3+993vd+7+8r/X8Xvb+X3t8Pvd8Hvu8F3++H398HfL+7b93/g/f7/tX/++A//9XqPfe757rfH/q+c9937v/d+/9/8P/uev97wfd9gO/73ve7wff3wfd7z9vvu933e4F7v++9/d5//Zt7fe/r/z/g+/uQ+3vov+93v/++137fd/1/N3/3ve//F97fXf0/D3j/X3W/H/l+H/r93nu+d1+47w9/vw97vwu8v++533/i77ve//fu79f+/i6y7/vA+/t9/3+9d3/fv3/f34vX763v/0G/+zPud+H3feD7fuv9/a73d+f9f6/17/vdz3X3/e7f/5Hvd9H3e9L7feD7fs/7u9D7Pfd3v3t8P9L9HvL+/uD/e3/3fe+774e873fe/13z/f5X8/vd+/v6/e+C9/e+73fv73fv/1b1ve/+v1/x/b1P/X6/r7z/r7r/+5Hvd3vv/70/9vvev/99b7vv7+D3fW8/7wN9v9/5vh/5fb9X/79/8n4PeH/nef+7D973D9zvXnrfP7T+PeT9773399z9vQfe9/d9v3fv9+vu+73w/g69773
+    <div id="login-screen" class="container">
+        <div class="header-logos">
+            <img src="image_98ed0f.png" alt="Logo Escola JTS">
+            <img src="image_9943fb.png" alt="Logo Grêmio GC">
+        </div>
+        <h2>Acesso ao Portal Grêmio Estudantil</h2>
+        <div class="form-group"><label>Usuário</label><input type="text" id="user" placeholder="Digite seu usuário"></div>
+        <div class="form-group"><label>Senha</label><input type="password" id="pass" placeholder="Digite sua senha"></div>
+        <button onclick="handleLogin()">Entrar no Sistema</button>
+    </div>
+
+    <div id="dashboard" class="container hidden">
+        <div style="text-align: right; margin-bottom: 10px;">
+            <span id="user-display" style="font-size: 12px; font-weight: bold;"></span> | 
+            <a href="#" onclick="location.reload()" style="color: #dc3545; font-size: 12px;">Sair</a>
+        </div>
+        <h2>Cadastrar Ação Estidantil</h2>
+        
+        <div class="form-group"><label>Título da Ação</label><input type="text" id="titulo"></div>
+        
+        <div style="display: flex; gap: 10px;">
+            <div class="form-group" style="flex: 1;"><label>Data</label><input type="date" id="data"></div>
+            <div class="form-group" style="flex: 1;"><label>Participantes</label><input type="number" id="qtd"></div>
+        </div>
+
+        <div class="form-group">
+            <label>Proposta de Ação</label>
+            <select id="proposta">
+                <option value="Grêmio">Grêmio</option>
+                <option value="Gestão Escolar">Gestão Escolar</option>
+                <option value="GRESP - SEDUC">GRESP - SEDUC</option>
+            </select>
+        </div>
+
+        <div class="form-group"><label>Tema</label><input type="text" id="tema"></div>
+        <div class="form-group"><label>Descrição Completa</label><textarea id="descricao" rows="4"></textarea></div>
+
+        <button class="btn-save" onclick="salvarAcao()">Salvar Registro de Ação</button>
+        <button class="btn-log" onclick="acessarLogs()">Consultar Histórico de Logs</button>
+    </div>
+
+    <div id="logs-screen" class="container hidden" style="max-width: 900px;">
+        <h2>Histórico de Registros</h2>
+        <div style="display: flex; justify-content: space-between; margin-bottom: 15px;">
+            <button onclick="voltarDash()" style="background: #343a40; width: auto; padding: 10px 20px;">Voltar</button>
+            <button class="btn-danger" onclick="limparBanco()">Limpar Histórico</button>
+        </div>
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Data/Hora</th>
+                        <th>Autor</th>
+                        <th>Ação</th>
+                        <th>Download</th>
+                    </tr>
+                </thead>
+                <tbody id="log-table-body"></tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        const { jsPDF } = window.jspdf;
+        const users = { "admin": "1234", "gremio": "gremio123" };
+        let loggedUser = "";
+
+        // BANCO DE DADOS LIMPO (v5 para apagar os erros antigos)
+        const DB_NAME = 'gremio_db_v5';
+
+        function handleLogin() {
+            const u = document.getElementById('user').value;
+            const p = document.getElementById('pass').value;
+            if (users[u] === p) {
+                loggedUser = u;
+                document.getElementById('login-screen').classList.add('hidden');
+                document.getElementById('dashboard').classList.remove('hidden');
+                document.getElementById('user-display').innerText = "Usuário: " + u;
+            } else { alert("Login inválido!"); }
+        }
+
+        function salvarAcao() {
+            const titulo = document.getElementById('titulo').value;
+            const dataAcao = document.getElementById('data').value;
+            const qtd = document.getElementById('qtd').value;
+            const proposta = document.getElementById('proposta').value;
+            const tema = document.getElementById('tema').value;
+            const descricao = document.getElementById('descricao').value;
+
+            if (!titulo || !dataAcao) return alert("Por favor, informe ao menos o Título e a Data!");
+
+            const registro = {
+                id: Date.now(),
+                autor: loggedUser,
+                dataReg: new Date().toLocaleDateString('pt-BR'),
+                horaReg: new Date().toLocaleTimeString('pt-BR'),
+                titulo, dataAcao, qtd, proposta, tema, descricao
+            };
+
+            let logs = JSON.parse(localStorage.getItem(DB_NAME) || "[]");
+            logs.push(registro);
+            localStorage.setItem(DB_NAME, JSON.stringify(logs));
+
+            alert("Ação salva com sucesso!");
+            document.querySelectorAll('input, textarea').forEach(i => i.value = "");
+        }
+
+        function acessarLogs() {
+            const pass = prompt("Acesso Restrito. Digite a senha:");
+            if (pass === "0000") {
+                document.getElementById('dashboard').classList.add('hidden');
+                document.getElementById('logs-screen').classList.remove('hidden');
+                renderLogs();
+            } else { alert("Acesso Negado!"); }
+        }
+
+        function renderLogs() {
+            const tbody = document.getElementById('log-table-body');
+            const logs = JSON.parse(localStorage.getItem(DB_NAME) || "[]");
+            tbody.innerHTML = "";
+
+            // FILTRO PARA NÃO APARECER UNDEFINED
+            const filtrados = logs.filter(l => l && l.titulo);
+
+            if (filtrados.length === 0) {
+                tbody.innerHTML = "<tr><td colspan='4' style='text-align:center;'>Nenhum registro encontrado.</td></tr>";
+                return;
+            }
+
+            filtrados.reverse().forEach(log => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td>${log.dataReg} ${log.horaReg}</td>
+                    <td><strong>${log.autor}</strong></td>
+                    <td>${log.titulo}</td>
+                    <td><button class="badge-download" onclick="gerarPDF(${log.id})">Baixar PDF</button></td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        function gerarPDF(id) {
+            const logs = JSON.parse(localStorage.getItem(DB_NAME) || "[]");
+            const d = logs.find(l => l.id === id);
+            if (!d) return;
+
+            const doc = new jsPDF();
+            
+            // Layout do PDF
+            doc.setFillColor(0, 168, 150); // Verde SED
+            doc.rect(0, 0, 210, 40, 'F');
+            
+            doc.setTextColor(255, 255, 255);
+            doc.setFontSize(22);
+            doc.text("RELATÓRIO DE AÇÃO ESTUDANTIL", 105, 25, { align: "center" });
+            
+            doc.setTextColor(0, 0, 0);
+            doc.setFontSize(12);
+            doc.setFont("helvetica", "bold");
+            doc.text(`Escola: E.E. Profº João Teixeira Sampaio`, 20, 55);
+            doc.text(`Grêmio: Geração Consciente`, 20, 62);
+            
+            doc.setFont("helvetica", "normal");
+            doc.text(`Título da Ação: ${d.titulo}`, 20, 75);
+            doc.text(`Data da Realização: ${d.dataAcao}`, 20, 85);
+            doc.text(`Quantidade de Participantes: ${d.qtd}`, 20, 95);
+            doc.text(`Origem da Proposta: ${d.proposta}`, 20, 105);
+            doc.text(`Tema: ${d.tema}`, 20, 115);
+            
+            doc.line(20, 120, 190, 120);
+            doc.setFont("helvetica", "bold");
+            doc.text("Descrição da Ação:", 20, 130);
+            doc.setFont("helvetica", "normal");
+            
+            const descLines = doc.splitTextToSize(d.descricao, 170);
+            doc.text(descLines, 20, 140);
+
+            doc.setFontSize(10);
+            doc.setTextColor(100);
+            doc.text(`Emitido em: ${d.dataReg} às ${d.horaReg} por ${d.autor}`, 20, 285);
+            
+            doc.save(`Acao_JTS_${d.titulo}.pdf`);
+        }
+
+        function limparBanco() {
+            if (confirm("Isso apagará permanentemente todos os logs registrados até agora. Confirmar?")) {
+                localStorage.removeItem(DB_NAME);
+                renderLogs();
+            }
+        }
+
+        function voltarDash() {
+            document.getElementById('logs-screen').classList.add('hidden');
+            document.getElementById('dashboard').classList.remove('hidden');
+        }
+    </script>
+</body>
+</html>
